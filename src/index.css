@@ -1,0 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap');
+
+:root {
+  --color-bg: #fff7f0;
+  --color-bg-alt: #ffe4ec;
+  --color-accent: #f3c6d3;
+  --color-pink: #f9e3ea;
+  --color-peach: #ffe5d0;
+  --color-beige: #f8f5f2;
+  --color-white: #fff;
+  --color-text: #b5838d;
+  --color-heading: #a25f7a;
+  --color-divider: #f3c6d3;
+  --color-gold: #e2c928;
+  --shadow-soft: 0 4px 24px 0 rgba(181, 131, 141, 0.08);
+  --shadow-card: 0 8px 32px 0 rgba(181, 131, 141, 0.10);
+  --radius: 18px;
+  --radius-lg: 32px;
+  --section-padding: 2.5rem;
+  --max-width: 600px;
+}
+
+body {
+  font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  background: var(--color-bg);
+  color: var(--color-text);
+  margin: 0;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Playfair Display', serif;
+  color: var(--color-heading);
+  margin: 0;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+button {
+  font-family: inherit;
+}
