@@ -753,11 +753,10 @@ body.dark .wedding-modal-close {
   padding: 2rem 0;
 }
 .services-photo img {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
+  width: 200px;
+  height: 150px;
+  border-radius: 12px;
   object-fit: cover;
-  border: 2px solid var(--color-accent);
   box-shadow: var(--shadow-soft);
   background: var(--color-white);
 }
@@ -790,24 +789,47 @@ body.dark .wedding-modal-close {
   box-shadow: var(--shadow-soft);
   padding: 2.2rem 1.2rem 2.2rem 1.2rem;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  gap: 1.5rem;
+  gap: 2rem;
+}
+.about-content {
+  flex: 1 1 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 1rem;
+}
+.about-photo {
+  flex: 1 1 50%;
+  background: var(--color-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 0;
 }
 .about-img {
-  width: 120px;
-  height: 120px;
-  border-radius: 24px;
+  width: 200px;
+  height: 150px;
+  border-radius: 12px;
   object-fit: cover;
-  border: 2px solid var(--color-accent);
   box-shadow: var(--shadow-soft);
   background: var(--color-white);
 }
 .about-text {
   font-size: 1.08rem;
   color: var(--color-text);
-  text-align: center;
+  text-align: left;
   margin: 0;
+}
+@media (max-width: 768px) {
+  .about-section {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  .about-content, .about-photo {
+    flex: 1 1 100%;
+  }
 }
 
 /* Footer */
@@ -837,19 +859,22 @@ body.dark .wedding-modal-close {
 .footer-socials a:hover {
   color: var(--color-heading);
 }
-
-/* Responsive */
-@media (max-width: 900px) {
-  .hero-section {
-    flex-direction: column;
-    min-height: 220px;
-    padding: 0;
-    background-position: center top;
-  }
-  .hero-content {
-    padding: 1.2rem 0.7rem;
-  }
+.footer-credit {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  font-size: 0.85rem;
+  color: #a7869c;
+  opacity: 0.8;
 }
+.developer-name {
+  font-weight: 600;
+  color: #b5838d;
+  font-size: 0.9rem;
+}
+
 .hero-brush-bg {
   background: #fde8ef;
   padding-top: 2.5rem;
@@ -894,18 +919,6 @@ body.dark .wedding-modal-close {
   text-shadow: 0 2px 12px rgba(0,0,0,0.18), 0 1px 4px rgba(181,131,141,0.10);
   padding: 0 1.2rem;
 }
-@media (max-width: 700px) {
-  .hero-brush-container {
-    max-width: 98vw;
-  }
-  .hero-brush-img {
-    max-width: 98vw;
-  }
-  .hero-brush-text .hero-headline {
-    font-size: 1.6rem;
-    padding: 0 0.3rem;
-  }
-}
 
 .form-group {
   display: flex;
@@ -920,4 +933,199 @@ body.dark .wedding-modal-close {
   font-weight: 600;
   margin-bottom: 0.3rem;
   text-align: left;
+}
+
+/* Responsive Design - Complete */
+@media (max-width: 768px) {
+  /* Hero Section */
+  .hero-vertical-layout {
+    padding: 1.2rem 0.5rem 0 0.5rem;
+  }
+  .hero-headline {
+    font-size: 2rem;
+    margin-bottom: 0.7rem;
+    margin-top: 1.2rem;
+  }
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+  
+  /* Icon Row */
+  .icon-row {
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .upload-icon i {
+    width: 56px;
+    height: 56px;
+    font-size: 1.5rem;
+  }
+  .upload-icon p {
+    font-size: 0.8rem;
+  }
+  
+  /* Upload Section */
+  .upload-section {
+    margin: -20px auto 0 auto;
+    padding: 1.5rem 1rem;
+    gap: 1.5rem;
+  }
+  
+  /* Services Section */
+  .services-section {
+    flex-direction: column;
+    margin: 1.5rem auto;
+  }
+  .services-photo {
+    padding: 1.5rem 0;
+  }
+  .services-photo img {
+    width: 160px;
+    height: 120px;
+  }
+  .services-content {
+    padding: 1.5rem 1rem;
+  }
+  .services-title {
+    font-size: 1.2rem;
+  }
+  .services-text {
+    font-size: 1rem;
+  }
+  
+  /* About Section */
+  .about-section {
+    flex-direction: column;
+    gap: 1.5rem;
+    margin: 1.5rem auto;
+    padding: 1.5rem 1rem;
+  }
+  .about-content, .about-photo {
+    flex: 1 1 100%;
+  }
+  .about-photo {
+    padding: 1.5rem 0;
+  }
+  .about-img {
+    width: 160px;
+    height: 120px;
+  }
+  .about-text {
+    font-size: 1rem;
+    text-align: center;
+  }
+  
+  /* Footer */
+  .footer-section {
+    padding: 1rem 0;
+    margin-top: 1.5rem;
+  }
+  .footer-credit {
+    font-size: 0.8rem;
+  }
+  .developer-name {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Hero Section */
+  .hero-vertical-layout {
+    padding: 1rem 0.5rem 0 0.5rem;
+  }
+  .hero-headline {
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+    margin-top: 1rem;
+  }
+  .hero-subtitle {
+    font-size: 0.95rem;
+  }
+  
+  /* Icon Row */
+  .icon-row {
+    gap: 1rem;
+  }
+  .upload-icon i {
+    width: 48px;
+    height: 48px;
+    font-size: 1.3rem;
+  }
+  .upload-icon p {
+    font-size: 0.75rem;
+  }
+  
+  /* Upload Section */
+  .upload-section {
+    padding: 1rem 0.8rem;
+    gap: 1rem;
+  }
+  
+  /* Services & About Images */
+  .services-photo img,
+  .about-img {
+    width: 140px;
+    height: 105px;
+  }
+  
+  /* Form Elements */
+  .form-label {
+    font-size: 0.9rem;
+  }
+  .upload-input {
+    font-size: 0.9rem;
+    padding: 0.6em 0.8em;
+  }
+  .upload-btn {
+    font-size: 1rem;
+    padding: 0.6em 1.8em;
+  }
+}
+
+@media (max-width: 360px) {
+  .hero-headline {
+    font-size: 1.6rem;
+  }
+  .hero-subtitle {
+    font-size: 0.9rem;
+  }
+  .icon-row {
+    gap: 0.8rem;
+  }
+  .upload-icon i {
+    width: 44px;
+    height: 44px;
+    font-size: 1.2rem;
+  }
+  .services-photo img,
+  .about-img {
+    width: 120px;
+    height: 90px;
+  }
+}
+
+/* Additional responsive fixes */
+@media (max-width: 900px) {
+  .hero-section {
+    flex-direction: column;
+    min-height: 220px;
+    padding: 0;
+    background-position: center top;
+  }
+  .hero-content {
+    padding: 1.2rem 0.7rem;
+  }
+}
+
+@media (max-width: 700px) {
+  .hero-brush-container {
+    max-width: 98vw;
+  }
+  .hero-brush-img {
+    max-width: 98vw;
+  }
+  .hero-brush-text .hero-headline {
+    font-size: 1.6rem;
+    padding: 0 0.3rem;
+  }
 }

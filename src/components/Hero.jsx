@@ -72,21 +72,6 @@ export default function Hero() {
         <p className="hero-subtitle">
           Düğünümüze hoş geldiniz. Fotoğraf, mesaj ve sesli dileklerinizi bizimle paylaşabilirsiniz.
         </p>
-        <div className="hero-particles-toggle">
-          <span>Interaction: </span>
-          <button
-            className={interaction === "repulse" ? "active" : ""}
-            onClick={() => setInteraction("repulse")}
-          >
-            Repulse
-          </button>
-          <button
-            className={interaction === "attract" ? "active" : ""}
-            onClick={() => setInteraction("attract")}
-          >
-            Attract
-          </button>
-        </div>
       </div>
     </section>
   );

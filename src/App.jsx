@@ -2,6 +2,8 @@ import { useState } from 'react';
 import './App.css';
 import '@fontsource/inter';
 import Hero from './components/Hero';
+import coupleImg from './assets/couple.jpeg';
+import gelinDamatImg from './assets/gelindamat.jpeg';
 
 function SectionDivider() {
   return (
@@ -105,7 +107,7 @@ export default function App() {
       {/* Services Section */}
       <section className="services-section">
         <div className="services-photo">
-          <img src="./assets/flower.png" alt="Düğün Anı" />
+          <img src={coupleImg} alt="Düğün Çifti" />
         </div>
         <div className="services-content">
           <div className="services-title">Anılarınızı Paylaşın</div>
@@ -115,9 +117,13 @@ export default function App() {
       <SectionDivider />
       {/* About Section */}
       <section className="about-section">
-        <img src="./assets/flower.png" alt="Düğün Hakkında" className="about-img" />
-        <div className="about-text">
-          Ayşe & Mehmet’in bu özel gününde bizimle olduğunuz için çok mutluyuz. Katılımınız ve güzel dilekleriniz için teşekkür ederiz!
+        <div className="about-content">
+          <div className="about-text">
+            Ayşe & Mehmet'in bu özel gününde bizimle olduğunuz için çok mutluyuz. Katılımınız ve güzel dilekleriniz için teşekkür ederiz!
+          </div>
+        </div>
+        <div className="about-photo">
+          <img src={gelinDamatImg} alt="Gelin ve Damat" className="about-img" />
         </div>
       </section>
       {/* Footer */}
@@ -126,6 +132,10 @@ export default function App() {
         <div className="footer-socials">
           <a href="#" aria-label="Instagram"><span role="img" aria-label="Instagram">📸</span></a>
           <a href="#" aria-label="WhatsApp"><span role="img" aria-label="WhatsApp">💬</span></a>
+        </div>
+        <div className="footer-credit">
+          <span>Designed & Developed by</span>
+          <span className="developer-name">Kamile Güler</span>
         </div>
       </footer>
     </div>
