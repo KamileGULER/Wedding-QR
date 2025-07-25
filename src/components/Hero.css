@@ -1,0 +1,100 @@
+.hero {
+  position: relative;
+  width: 100vw;
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: #f8e6ec;
+  transition: background 0.5s;
+}
+
+.hero-particles-bg {
+  background: linear-gradient(120deg, #ffe4ec 0%, #f8e6ec 60%, #eec6d0 100%);
+}
+
+.hero-particles-canvas {
+  position: absolute !important;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 2rem 1rem;
+  animation: fadeInUp 1.2s cubic-bezier(.23,1.01,.32,1) both;
+}
+
+.hero-title {
+  font-size: 3rem;
+  font-weight: 800;
+  color: #b5838d;
+  letter-spacing: 0.01em;
+  margin-bottom: 1rem;
+  opacity: 0;
+  animation: fadeInUp 1.2s 0.2s cubic-bezier(.23,1.01,.32,1) forwards;
+}
+
+.hero-subtitle {
+  font-size: 1.3rem;
+  color: #a7869c;
+  opacity: 0;
+  animation: fadeInUp 1.2s 0.5s cubic-bezier(.23,1.01,.32,1) forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-particles-toggle {
+  margin-top: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+}
+.hero-particles-toggle button {
+  background: #ffe4ec;
+  border: 1px solid #eec6d0;
+  color: #b5838d;
+  border-radius: 8px;
+  padding: 0.3em 1em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border 0.2s;
+}
+.hero-particles-toggle button.active,
+.hero-particles-toggle button:hover {
+  background: #b5838d;
+  color: #fff;
+  border-color: #b5838d;
+}
+
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2rem;
+  }
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+  .hero-content {
+    padding: 1.2rem 0.5rem;
+  }
+} 

@@ -1,9 +1,7 @@
 import { useState } from 'react';
 import './App.css';
 import '@fontsource/inter';
-import sparkleBg from './assets/resim.jpeg';
-import flower from './assets/flower.png';
-import lolBg from './assets/LOL.jpeg';
+import Hero from './components/Hero';
 
 function SectionDivider() {
   return (
@@ -46,20 +44,23 @@ export default function App() {
   return (
     <div>
       {/* Hero Section */}
-      <section className="hero-section">
-        <img src={lolBg} alt="Akvarel Banner" className="hero-banner-img" />
-        <div className="hero-content hero-vertical-layout">
-          <h1 className="hero-headline">Ayşe & Mehmet</h1>
-          <div className="hero-subtitle hero-white">Düğünümüze hoş geldiniz. Fotoğraf, mesaj ve sesli dileklerinizi bizimle paylaşabilirsiniz.</div>
-        </div>
-      </section>
+      <Hero />
       <SectionDivider />
       {/* Upload Section */}
       <section className="upload-section">
-        <div className="upload-icons">
-          <div className="upload-icon"><img src={flower} alt="Fotoğraf" /></div>
-          <div className="upload-icon"><img src={flower} alt="Mesaj" /></div>
-          <div className="upload-icon"><img src={flower} alt="Ses" /></div>
+        <div className="icon-row">
+          <div className="upload-icon">
+            <i className="fas fa-camera-retro"></i>
+            <p>Fotoğraf</p>
+          </div>
+          <div className="upload-icon">
+            <i className="fas fa-comment-dots"></i>
+            <p>Mesaj</p>
+          </div>
+          <div className="upload-icon">
+            <i className="fas fa-microphone"></i>
+            <p>Ses</p>
+          </div>
         </div>
         <form className="upload-form" onSubmit={handleSubmit} autoComplete="off">
           <input
@@ -95,7 +96,7 @@ export default function App() {
       {/* Services Section */}
       <section className="services-section">
         <div className="services-photo">
-          <img src={flower} alt="Düğün Anı" />
+          <img src="./assets/flower.png" alt="Düğün Anı" />
         </div>
         <div className="services-content">
           <div className="services-title">Anılarınızı Paylaşın</div>
@@ -105,7 +106,7 @@ export default function App() {
       <SectionDivider />
       {/* About Section */}
       <section className="about-section">
-        <img src={flower} alt="Düğün Hakkında" className="about-img" />
+        <img src="./assets/flower.png" alt="Düğün Hakkında" className="about-img" />
         <div className="about-text">
           Ayşe & Mehmet’in bu özel gününde bizimle olduğunuz için çok mutluyuz. Katılımınız ve güzel dilekleriniz için teşekkür ederiz!
         </div>
