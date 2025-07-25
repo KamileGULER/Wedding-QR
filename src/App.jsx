@@ -63,32 +63,41 @@ export default function App() {
           </div>
         </div>
         <form className="upload-form" onSubmit={handleSubmit} autoComplete="off">
-          <input
-            type="file"
-            accept="image/*"
-            className="upload-input"
-            onChange={handlePhoto}
-          />
+          <div className="form-group">
+            <label className="form-label">Fotoğraf Yükle:</label>
+            <input
+              type="file"
+              accept="image/*"
+              className="upload-input"
+              onChange={handlePhoto}
+            />
+          </div>
           {photoPreview && (
             <div className="upload-preview">
               <img src={photoPreview} alt="Yüklenen fotoğraf önizlemesi" />
             </div>
           )}
-          <textarea
-            className="upload-input"
-            value={message}
-            onChange={e => setMessage(e.target.value)}
-            placeholder="Kısa bir mesaj bırakın..."
-            rows={3}
-            maxLength={250}
-            required
-          />
-          <input
-            type="file"
-            accept="audio/*"
-            className="upload-input"
-            onChange={handleAudio}
-          />
+          <div className="form-group">
+            <label className="form-label">Mesajınız:</label>
+            <textarea
+              className="upload-input"
+              value={message}
+              onChange={e => setMessage(e.target.value)}
+              placeholder="Kısa bir mesaj bırakın..."
+              rows={3}
+              maxLength={250}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label className="form-label">Sesli Mesaj Yükle:</label>
+            <input
+              type="file"
+              accept="audio/*"
+              className="upload-input"
+              onChange={handleAudio}
+            />
+          </div>
           <button className="upload-btn" type="submit">Gönder</button>
         </form>
       </section>

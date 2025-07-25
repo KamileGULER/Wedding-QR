@@ -906,3 +906,18 @@ body.dark .wedding-modal-close {
     padding: 0 0.3rem;
   }
 }
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.2rem;
+  width: 100%;
+}
+.form-label {
+  font-size: 1rem;
+  color: #b5838d;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+  text-align: left;
+}
