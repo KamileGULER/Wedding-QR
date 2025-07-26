@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import './App.css';
 import '@fontsource/inter';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Modal, Button } from 'react-bootstrap';
 import Hero from './components/Hero';
 import coupleImg from './assets/couple.jpeg';
 import gelinDamatImg from './assets/gelindamat.jpeg';
@@ -16,38 +18,79 @@ function SectionDivider() {
 }
 
 export default function App() {
-  const [photo, setPhoto] = useState(null);
-  const [photoPreview, setPhotoPreview] = useState(null);
+  const [photos, setPhotos] = useState([]);
+  const [photoPreviews, setPhotoPreviews] = useState([]);
   const [message, setMessage] = useState('');
-  const [audio, setAudio] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [modalTitle, setModalTitle] = useState('');
+  const [modalMessage, setModalMessage] = useState('');
 
   // Upload handlers
   const handlePhoto = (e) => {
-    const file = e.target.files[0];
-    setPhoto(file);
-    if (file) {
+    const files = Array.from(e.target.files);
+    setPhotos(files);
+    
+    const readers = files.map(file => {
       const reader = new FileReader();
-      reader.onloadend = () => setPhotoPreview(reader.result);
+      reader.onloadend = () => {
+        setPhotoPreviews(prev => [...prev, reader.result]);
+      };
       reader.readAsDataURL(file);
-    } else {
-      setPhotoPreview(null);
-    }
+      return reader;
+    });
   };
-  const handleAudio = (e) => setAudio(e.target.files[0]);
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert('Teşekkür ederiz!');
-    setPhoto(null);
-    setPhotoPreview(null);
+    
+    // Check if either photos or message is provided
+    if (photos.length === 0 && message.trim() === '') {
+      setModalTitle('Uyarı');
+      setModalMessage('Lütfen en az bir fotoğraf veya mesaj ekleyin!');
+      setShowModal(true);
+      return;
+    }
+    
+    setModalTitle('Teşekkürler! 💕');
+    setModalMessage('Düğünümüze katıldığınız ve bu özel günümüzde anı bıraktığınız için çok teşekkür ederiz. Sizinle paylaştığımız her an bizim için çok değerli! 💒✨');
+    setShowModal(true);
+    setPhotos([]);
+    setPhotoPreviews([]);
     setMessage('');
-    setAudio(null);
   };
 
   return (
     <div>
       {/* Hero Section */}
       <Hero />
-      <SectionDivider />
+      {/* How to Use Section */}
+      <section className="how-to-section">
+        <div className="container">
+          <h2 className="section-title">Nasıl Kullanılır?</h2>
+          <div className="how-to-steps">
+            <div className="step">
+              <div className="step-number">1</div>
+              <div className="step-content">
+                <h3>Fotoğraf Seçin</h3>
+                <p>Düğün anılarınızdan fotoğraflarınızı seçin. Birden fazla fotoğraf yükleyebilirsiniz.</p>
+              </div>
+            </div>
+            <div className="step">
+              <div className="step-number">2</div>
+              <div className="step-content">
+                <h3>Mesaj Yazın</h3>
+                <p>İsteğe bağlı olarak kısa bir mesaj yazabilirsiniz. Fotoğraf veya mesajdan en az biri gereklidir.</p>
+              </div>
+            </div>
+            <div className="step">
+              <div className="step-number">3</div>
+              <div className="step-content">
+                <h3>Gönderin</h3>
+                <p>Formu doldurduktan sonra "Gönder" butonuna tıklayarak anılarınızı paylaşın.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
       {/* Upload Section */}
       <section className="upload-section">
         <div className="icon-row">
@@ -59,10 +102,6 @@ export default function App() {
             <i className="fas fa-comment-dots"></i>
             <p>Mesaj</p>
           </div>
-          <div className="upload-icon">
-            <i className="fas fa-microphone"></i>
-            <p>Ses</p>
-          </div>
         </div>
         <form className="upload-form" onSubmit={handleSubmit} autoComplete="off">
           <div className="form-group">
@@ -70,13 +109,16 @@ export default function App() {
             <input
               type="file"
               accept="image/*"
+              multiple
               className="upload-input"
               onChange={handlePhoto}
             />
           </div>
-          {photoPreview && (
+          {photoPreviews.length > 0 && (
             <div className="upload-preview">
-              <img src={photoPreview} alt="Yüklenen fotoğraf önizlemesi" />
+              {photoPreviews.map((preview, index) => (
+                <img key={index} src={preview} alt={`Yüklenen fotoğraf önizlemesi ${index + 1}`} />
+              ))}
             </div>
           )}
           <div className="form-group">
@@ -88,16 +130,6 @@ export default function App() {
               placeholder="Kısa bir mesaj bırakın..."
               rows={3}
               maxLength={250}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label className="form-label">Sesli Mesaj Yükle:</label>
-            <input
-              type="file"
-              accept="audio/*"
-              className="upload-input"
-              onChange={handleAudio}
             />
           </div>
           <button className="upload-btn" type="submit">Gönder</button>
@@ -138,6 +170,21 @@ export default function App() {
           <span className="developer-name">Kamile Güler</span>
         </div>
       </footer>
+
+      {/* Bootstrap Modal */}
+      <Modal show={showModal} onHide={() => setShowModal(false)} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>{modalTitle}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {modalMessage}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" onClick={() => setShowModal(false)}>
+            Tamam
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }

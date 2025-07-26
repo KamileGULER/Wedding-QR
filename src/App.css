@@ -619,6 +619,84 @@ body.dark .wedding-modal-close {
   height: 100%;
 }
 
+
+/* How to Use Section */
+.how-to-section {
+  background: var(--color-white);
+  max-width: var(--max-width);
+  margin: 2.5rem auto;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  padding: 2.2rem 1.2rem 2.2rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.2rem;
+}
+.container {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  color: var(--color-heading);
+  margin-bottom: 2rem;
+  text-align: center;
+  font-weight: 700;
+}
+.how-to-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
+}
+.step {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  background: rgba(255,255,255,0.7);
+  border-radius: 16px;
+  box-shadow: 0 2px 8px 0 rgba(181, 131, 141, 0.08);
+  border: 1px solid rgba(181, 131, 141, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.step:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px 0 rgba(181, 131, 141, 0.12);
+}
+.step-number {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #f3c6d3 0%, #ffe4ec 100%);
+  color: #b5838d;
+  font-weight: 700;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px 0 rgba(181, 131, 141, 0.15);
+}
+.step-content {
+  flex: 1;
+}
+.step-content h3 {
+  font-size: 1.2rem;
+  color: var(--color-heading);
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+.step-content p {
+  font-size: 1rem;
+  color: var(--color-text);
+  line-height: 1.5;
+  margin: 0;
+}
+
 /* Upload Section */
 .upload-section {
   background: var(--color-white);
@@ -802,7 +880,7 @@ body.dark .wedding-modal-close {
 }
 .about-photo {
   flex: 1 1 50%;
-  background: var(--color-white);
+  background: #ffe4ec;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -937,6 +1015,34 @@ body.dark .wedding-modal-close {
 
 /* Responsive Design - Complete */
 @media (max-width: 768px) {
+  /* How to Use Section */
+  .how-to-section {
+    margin: 1.5rem auto;
+    padding: 1.5rem 1rem;
+  }
+  .section-title {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .how-to-steps {
+    gap: 1.5rem;
+  }
+  .step {
+    padding: 1.2rem;
+    gap: 1rem;
+  }
+  .step-number {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+  .step-content h3 {
+    font-size: 1.1rem;
+  }
+  .step-content p {
+    font-size: 0.95rem;
+  }
+  
   /* Hero Section */
   .hero-vertical-layout {
     padding: 1.2rem 0.5rem 0 0.5rem;

@@ -70,7 +70,7 @@ export default function Hero() {
       <div className="hero-content">
         <h1 className="hero-title">Ayşe & Mehmet</h1>
         <p className="hero-subtitle">
-          Düğünümüze hoş geldiniz. Fotoğraf, mesaj ve sesli dileklerinizi bizimle paylaşabilirsiniz.
+          Düğünümüze hoş geldiniz. Fotoğraf ve mesajlarınızı bizimle paylaşabilirsiniz.
         </p>
       </div>
     </section>
