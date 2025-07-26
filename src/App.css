@@ -845,6 +845,7 @@ body.dark .wedding-modal-close {
   justify-content: center;
   padding: 2rem 1.5rem;
   gap: 1.2rem;
+  background: var(--color-peach);
 }
 .services-title {
   font-family: 'Playfair Display', serif;
