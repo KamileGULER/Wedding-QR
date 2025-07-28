@@ -151,7 +151,7 @@ export default function App() {
       <section className="about-section">
         <div className="about-content">
           <div className="about-text">
-            Ayşe & Mehmet'in bu özel gününde bizimle olduğunuz için çok mutluyuz. Katılımınız ve güzel dilekleriniz için teşekkür ederiz!
+            Raşit & Beyza'nın bu özel gününde bizimle olduğunuz için çok mutluyuz. Katılımınız ve güzel dilekleriniz için teşekkür ederiz!
           </div>
         </div>
         <div className="about-photo">
