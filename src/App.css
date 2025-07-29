@@ -1236,3 +1236,56 @@ body.dark .wedding-modal-close {
     padding: 0 0.3rem;
   }
 }
+
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2.5rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.1rem;
+  }
+  
+  .section-title {
+    font-size: 1.8rem;
+  }
+  
+  .how-to-steps {
+    grid-template-columns: 1fr;
+  }
+  
+  .upload-section {
+    padding: 40px 20px;
+  }
+  
+  .upload-form {
+    max-width: 100%;
+  }
+  
+  .services-section {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .services-photo {
+    margin-bottom: 30px;
+  }
+  
+  .about-section {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .about-photo {
+    margin-top: 30px;
+  }
+  
+  .footer-section {
+    padding: 30px 20px;
+  }
+}
+
+

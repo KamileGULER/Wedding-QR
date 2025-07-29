@@ -1,0 +1,19 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="32" height="32" fill="#667eea"/>
+  <g stroke="#ffffff" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Sol kuş -->
+    <path d="M8 12 Q6 10 8 8 Q10 6 12 8 Q10 10 8 12"/>
+    <path d="M8 12 Q6 14 8 16 Q10 18 12 16"/>
+    <path d="M12 8 Q14 6 16 8"/>
+    <path d="M12 16 Q14 18 16 16"/>
+    
+    <!-- Sağ kuş -->
+    <path d="M24 12 Q26 10 24 8 Q22 6 20 8 Q22 10 24 12"/>
+    <path d="M24 12 Q26 14 24 16 Q22 18 20 16"/>
+    <path d="M20 8 Q18 6 16 8"/>
+    <path d="M20 16 Q18 18 16 16"/>
+    
+    <!-- Kalp -->
+    <path d="M16 12 Q14 10 12 12 Q12 14 16 16 Q20 14 20 12 Q18 10 16 12"/>
+  </g>
+</svg> 

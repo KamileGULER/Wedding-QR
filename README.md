@@ -1,12 +1,103 @@
-# React + Vite
+# Raşit & Beyza Düğünü - Anı Paylaşım Platformu
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Bu proje, Raşit ve Beyza'nın düğünü için özel olarak tasarlanmış bir anı paylaşım platformudur. Misafirler düğün anılarını fotoğrafları ve mesajlarıyla paylaşabilirler.
 
-Currently, two official plugins are available:
+## 🎯 Özellikler
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### 📱 Kullanıcı Özellikleri
+- **Fotoğraf Yükleme**: JPG, PNG, GIF, WebP formatlarında fotoğraf yükleme
+- **Mesaj Paylaşımı**: Düğün anılarınızı yazılı olarak paylaşma
+- **Güvenli Dosya Yükleme**: Dosya boyutu ve türü kontrolü
+- **Responsive Tasarım**: Mobil ve masaüstü uyumlu
 
-## Expanding the ESLint configuration
+### 🔐 Admin Paneli
+- **Şifre Koruması**: Güvenli admin girişi
+- **Gönderi Yönetimi**: Tüm gönderileri görüntüleme ve silme
+- **Rate Limiting**: Spam koruması
+- **Session Yönetimi**: Otomatik oturum sonlandırma
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### 🛡️ Güvenlik Özellikleri
+- **Dosya Validasyonu**: Magic number kontrolü
+- **XSS Koruması**: Input sanitization
+- **Rate Limiting**: 5 dakikada maksimum 3 gönderi
+- **Dosya Boyutu Limiti**: Maksimum 5MB per dosya
+
+## 🚀 Teknolojiler
+
+- **Frontend**: React 18 + TypeScript
+- **Build Tool**: Vite
+- **Styling**: CSS3 + Bootstrap
+- **Testing**: Jest + React Testing Library
+- **PWA**: Progressive Web App desteği
+- **SEO**: Meta tags, Open Graph, Schema.org
+
+## 📦 Kurulum
+
+```bash
+# Bağımlılıkları yükle
+npm install
+
+# Geliştirme sunucusunu başlat
+npm run dev
+
+# Production build
+npm run build
+
+# Testleri çalıştır
+npm test
+
+# TypeScript kontrolü
+npm run type-check
+```
+
+## 🔧 Geliştirme
+
+### Proje Yapısı
+```
+src/
+├── components/          # React bileşenleri
+│   ├── Hero.tsx        # Ana sayfa hero bölümü
+│   ├── SimpleAdmin.tsx # Admin paneli
+│   └── SectionDivider.tsx
+├── types/              # TypeScript tip tanımları
+├── assets/             # Resimler ve statik dosyalar
+└── App.tsx             # Ana uygulama bileşeni
+```
+
+### Admin Girişi
+- **Şifre**: `wedding2024!@#`
+- **Maksimum Deneme**: 3
+- **Kilit Süresi**: 5 dakika
+- **Oturum Süresi**: 30 dakika
+
+## 📱 PWA Özellikleri
+
+- Ana ekrana eklenebilir
+- Çevrimdışı çalışabilir
+- Push bildirimleri (gelecek)
+- Tam ekran mod
+
+## 🧪 Test
+
+```bash
+# Tüm testleri çalıştır
+npm test
+
+# Test coverage
+npm run test:coverage
+
+# Watch modunda test
+npm run test:watch
+```
+
+## 📄 Lisans
+
+Bu proje özel kullanım için tasarlanmıştır.
+
+## 👥 Geliştirici
+
+**Kamile Güler** - Web sitesi geliştiricisi
+
+---
+
+*Raşit & Beyza'nın düğünü için özel olarak hazırlanmıştır.* 💒
