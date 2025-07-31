@@ -17,6 +17,8 @@ function WeddingApp() {
   const [modalTitle, setModalTitle] = useState('');
   const [modalMessage, setModalMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [tempMessage, setTempMessage] = useState('');
+  const [showTempMessage, setShowTempMessage] = useState(false);
 
   // Rate limiting için
   const RATE_LIMIT_WINDOW = 5 * 60 * 1000; // 5 dakika
@@ -96,6 +98,23 @@ function WeddingApp() {
     return !dangerousPatterns.some(pattern => pattern.test(message));
   };
 
+  // İsim-soyisim doğrulama fonksiyonu
+  const validateNameInMessage = (message: string) => {
+    if (!message || typeof message !== 'string') return false;
+    
+    // Mesajı kelimelere ayır
+    const words = message.trim().split(/\s+/);
+    
+    // En az 2 kelime olmalı (isim ve soyisim)
+    if (words.length < 2) return false;
+    
+    // Her kelime en az 2 karakter olmalı
+    const validWords = words.filter(word => word.length >= 2);
+    
+    // En az 2 geçerli kelime olmalı
+    return validWords.length >= 2;
+  };
+
   // Upload handlers
   const handlePhoto = (e: React.ChangeEvent<HTMLInputElement>) => {
     const fileList = e.target.files;
@@ -125,11 +144,9 @@ function WeddingApp() {
       return;
     }
     
-    // Toplam dosya sayısı kontrolü (10 dosya limit)
-    if (files.length > 10) {
-      setModalTitle('Hata');
-      setModalMessage('En fazla 10 dosya yükleyebilirsiniz.');
-      setShowModal(true);
+    // Toplam dosya sayısı kontrolü (5 dosya limit)
+    if (files.length > 5) {
+      alert('En fazla 5 dosya seçebilirsiniz.');
       return;
     }
     
@@ -234,48 +251,68 @@ function WeddingApp() {
       return;
     }
     
+    // İsim-soyisim doğrulaması
+    if (message.trim() && !validateNameInMessage(message)) {
+      setModalTitle('Eksik Bilgi');
+      setModalMessage('Lütfen adınızı ve soyadınızı içeren bir mesaj yazın');
+      setShowModal(true);
+      return;
+    }
+    
     try {
       setIsSubmitting(true);
       
-      // Simulate upload delay
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      // Create FormData for multipart/form-data
+      const formData = new FormData();
       
-      // Store data locally (you can replace this with your preferred system)
-      const postData = {
-        id: Date.now(),
-        photos: photos.map(photo => ({
-          name: photo.name,
-          size: photo.size,
-          type: photo.type
-        })),
-        message: sanitizeInput(message.trim()),
-        createdAt: new Date().toISOString()
-      };
+      // Add message if provided
+      if (message.trim()) {
+        formData.append('message', message.trim());
+      }
       
-      // Save to localStorage (temporary storage)
-      const existingPosts = JSON.parse(localStorage.getItem('weddingPosts') || '[]');
-      existingPosts.push(postData);
-      localStorage.setItem('weddingPosts', JSON.stringify(existingPosts));
+      // Add photos if provided
+      if (photos.length > 0) {
+        photos.forEach((photo, index) => {
+          formData.append('photo', photo);
+        });
+      }
       
-      // Update rate limiting
-      updateRateLimit();
+      // Send to Basin endpoint
+      const response = await fetch('https://usebasin.com/f/ad5ae0b70aeb', {
+        method: 'POST',
+        body: formData
+      });
       
-      // Show success message
-      setModalTitle('Teşekkürler! 💕');
-      setModalMessage('Düğünümüze katıldığınız ve bu özel günümüzde anı bıraktığınız için çok teşekkür ederiz. Sizinle paylaştığımız her an bizim için çok değerli! 💒✨');
-      setShowModal(true);
-      
-      // Reset form
-      setPhotos([]);
-      setPhotoPreviews([]);
-      setMessage('');
+      if (response.ok) {
+        // Update rate limiting
+        updateRateLimit();
+        
+        // Show success message
+        setTempMessage('✅ Gönderildi!');
+        setShowTempMessage(true);
+        
+        // Hide message after 4 seconds
+        setTimeout(() => {
+          setShowTempMessage(false);
+        }, 4000);
+        
+        // Reset form
+        setPhotos([]);
+        setPhotoPreviews([]);
+        setMessage('');
+      } else {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
       
     } catch (error) {
       console.error('Error submitting form:', error);
-      setModalTitle('Hata');
-      const errorMessage = error instanceof Error ? error.message : 'Bilinmeyen hata';
-      setModalMessage(`Bir hata oluştu: ${errorMessage}. Lütfen tekrar deneyin.`);
-      setShowModal(true);
+      setTempMessage('❌ Hata oluştu');
+      setShowTempMessage(true);
+      
+      // Hide message after 4 seconds
+      setTimeout(() => {
+        setShowTempMessage(false);
+      }, 4000);
     } finally {
       setIsSubmitting(false);
     }
@@ -328,11 +365,26 @@ function WeddingApp() {
             <p>Mesaj</p>
           </div>
         </div>
+        {showTempMessage && (
+          <div style={{
+            padding: '10px',
+            margin: '10px 0',
+            borderRadius: '8px',
+            textAlign: 'center',
+            fontWeight: 'bold',
+            backgroundColor: tempMessage.includes('✅') ? '#d4edda' : '#f8d7da',
+            color: tempMessage.includes('✅') ? '#155724' : '#721c24',
+            border: `1px solid ${tempMessage.includes('✅') ? '#c3e6cb' : '#f5c6cb'}`
+          }}>
+            {tempMessage}
+          </div>
+        )}
         <form className="upload-form" onSubmit={handleSubmit} autoComplete="off">
           <div className="form-group">
             <label className="form-label">Fotoğraf Yükle:</label>
             <input
               type="file"
+              name="photo"
               accept="image/*"
               multiple
               className="upload-input"
@@ -349,10 +401,11 @@ function WeddingApp() {
           <div className="form-group">
             <label className="form-label">Mesajınız:</label>
             <textarea
+              name="message"
               className="upload-input"
               value={message}
               onChange={e => setMessage(e.target.value)}
-              placeholder="Kısa bir mesaj bırakın..."
+              placeholder="Lütfen mesajınızı yazın (isim ve soyisim dahil)"
               rows={3}
               maxLength={250}
             />
