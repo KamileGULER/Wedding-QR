@@ -9,15 +9,7 @@ export default function Hero({ title = "Raşit & Beyza", subtitle = "Düğünüm
       className="hero hero-particles-bg"
       style={{ background: pastelGradient }}
     >
-      {/* Floating flower decorations */}
-      <div className="floating-flowers">
-        <div className="flower flower-1">🌸</div>
-        <div className="flower flower-2">🌺</div>
-        <div className="flower flower-3">🌸</div>
-        <div className="flower flower-4">🌸</div>
-        <div className="flower flower-5">🌺</div>
-        <div className="flower flower-6">🌸</div>
-      </div>
+
       
       <div className="hero-content">
         <h1 className="hero-title">{title}</h1>

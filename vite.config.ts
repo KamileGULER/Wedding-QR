@@ -4,6 +4,7 @@ import path from 'path'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: '/Wedding-QR/', // ← repo adın neyse onu yaz
   plugins: [react()],
   resolve: {
     alias: {
