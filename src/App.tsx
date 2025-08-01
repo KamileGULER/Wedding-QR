@@ -19,6 +19,7 @@ function WeddingApp() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [tempMessage, setTempMessage] = useState('');
   const [showTempMessage, setShowTempMessage] = useState(false);
+  const [isDragOver, setIsDragOver] = useState(false);
 
   // Rate limiting için
   const RATE_LIMIT_WINDOW = 5 * 60 * 1000; // 5 dakika
@@ -121,7 +122,36 @@ function WeddingApp() {
     if (!fileList || fileList.length === 0) return;
     
     const files = Array.from(fileList);
+    console.log('File input değeri:', e.target.value);
+    console.log('FileList uzunluğu:', fileList.length);
+    console.log('Seçilen dosyalar:', files.map(f => f.name));
     
+    processFiles(files);
+  };
+
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDragOver(false);
+    const files = Array.from(e.dataTransfer.files);
+    console.log('Drop edilen dosyalar:', files.map(f => f.name));
+    processFiles(files);
+  };
+
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+  };
+
+  const handleDragEnter = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDragOver(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDragOver(false);
+  };
+
+  const processFiles = (files: File[]) => {
     // Dosya türü kontrolü
     const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
     const invalidFiles = files.filter((file: File) => !allowedTypes.includes(file.type));
@@ -208,14 +238,26 @@ function WeddingApp() {
         return;
       }
       
-      // All validations passed
+      // All validations passed - Önce state'leri temizle
+      console.log(`Seçilen fotoğraf sayısı: ${files.length}`);
       setPhotos(files);
+      setPhotoPreviews([]); // Önceki önizlemeleri temizle
       
-      files.forEach(file => {
+      // Yeni önizlemeleri oluştur
+      const newPreviews: string[] = [];
+      let processedCount = 0;
+      
+      files.forEach((file, index) => {
         const reader = new FileReader();
         reader.onloadend = () => {
           if (typeof reader.result === 'string') {
-            setPhotoPreviews(prev => [...prev, reader.result as string]);
+            newPreviews[index] = reader.result;
+            processedCount++;
+            
+            // Tüm dosyalar işlendiğinde state'i güncelle
+            if (processedCount === files.length) {
+              setPhotoPreviews(newPreviews);
+            }
           }
         };
         reader.readAsDataURL(file);
@@ -262,47 +304,84 @@ function WeddingApp() {
     try {
       setIsSubmitting(true);
       
-      // Create FormData for multipart/form-data
-      const formData = new FormData();
-      
-      // Add message if provided
-      if (message.trim()) {
-        formData.append('message', message.trim());
-      }
-      
-      // Add photos if provided
+      // Her fotoğrafı ayrı ayrı gönder
       if (photos.length > 0) {
-        photos.forEach((photo, index) => {
+        console.log(`Gönderilecek fotoğraf sayısı: ${photos.length}`);
+        
+        for (let i = 0; i < photos.length; i++) {
+          const photo = photos[i];
+          console.log(`Fotoğraf ${i + 1} gönderiliyor: ${photo.name} (${photo.size} bytes)`);
+          
+          // Her fotoğraf için ayrı FormData oluştur
+          const formData = new FormData();
+          
+          // Add message if provided
+          if (message.trim()) {
+            formData.append('message', message.trim());
+          }
+          
+          // Add single photo
           formData.append('photo', photo);
-        });
-      }
-      
-      // Send to Basin endpoint
-      const response = await fetch('https://usebasin.com/f/ad5ae0b70aeb', {
-        method: 'POST',
-        body: formData
-      });
-      
-      if (response.ok) {
-        // Update rate limiting
-        updateRateLimit();
-        
-        // Show success message
-        setTempMessage('✅ Gönderildi!');
-        setShowTempMessage(true);
-        
-        // Hide message after 4 seconds
-        setTimeout(() => {
-          setShowTempMessage(false);
-        }, 4000);
-        
-        // Reset form
-        setPhotos([]);
-        setPhotoPreviews([]);
-        setMessage('');
+          formData.append('photo_number', (i + 1).toString());
+          formData.append('total_photos', photos.length.toString());
+          
+          console.log(`FormData ${i + 1} içeriği:`);
+          for (let [key, value] of formData.entries()) {
+            console.log(`${key}:`, value);
+          }
+          
+          // Send to Basin endpoint
+          const response = await fetch('https://usebasin.com/f/ad5ae0b70aeb', {
+            method: 'POST',
+            body: formData
+          });
+          
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          
+          console.log(`Fotoğraf ${i + 1} başarıyla gönderildi`);
+        }
       } else {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        // Sadece mesaj varsa
+        const formData = new FormData();
+        if (message.trim()) {
+          formData.append('message', message.trim());
+        }
+        
+        const response = await fetch('https://usebasin.com/f/ad5ae0b70aeb', {
+          method: 'POST',
+          body: formData
+        });
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
       }
+      
+      // Başarılı gönderim
+      // Update rate limiting
+      updateRateLimit();
+      
+      // Show success message
+      setTempMessage('✅ Gönderildi!');
+      setShowTempMessage(true);
+      
+      // Hide message after 4 seconds
+      setTimeout(() => {
+        setShowTempMessage(false);
+      }, 4000);
+      
+      // Reset form
+      setPhotos([]);
+      setPhotoPreviews([]);
+      setMessage('');
+      
+              // Form input'unu da temizle
+        const fileInput = document.querySelector('#photo-upload') as HTMLInputElement;
+        if (fileInput) {
+          fileInput.value = '';
+        }
       
     } catch (error) {
       console.error('Error submitting form:', error);
@@ -381,15 +460,31 @@ function WeddingApp() {
         )}
         <form className="upload-form" onSubmit={handleSubmit} autoComplete="off">
           <div className="form-group">
-            <label className="form-label">Fotoğraf Yükle:</label>
-            <input
-              type="file"
-              name="photo"
-              accept="image/*"
-              multiple
-              className="upload-input"
-              onChange={handlePhoto}
-            />
+            <label htmlFor="photo-upload" className="form-label">Fotoğraf Yükle:</label>
+            <div 
+              className={`upload-drop-zone ${isDragOver ? 'dragover' : ''}`}
+              onDrop={handleDrop}
+              onDragOver={handleDragOver}
+              onDragEnter={handleDragEnter}
+              onDragLeave={handleDragLeave}
+            >
+              <input
+                id="photo-upload"
+                type="file"
+                name="photo"
+                accept="image/*"
+                multiple
+                className="upload-input"
+                onChange={handlePhoto}
+                aria-describedby="photo-help"
+              />
+              <div className="drop-zone-content">
+                <i className="fas fa-cloud-upload-alt"></i>
+                <p>Fotoğrafları buraya sürükleyin veya tıklayın</p>
+                <small>Birden fazla fotoğraf seçebilirsiniz (maksimum 5 adet)</small>
+              </div>
+            </div>
+            <div id="photo-help" className="form-text">Telefonda: Fotoğrafları sürükleyip bırakın veya galeriden seçin</div>
           </div>
           {photoPreviews.length > 0 && (
             <div className="upload-preview">
@@ -399,8 +494,9 @@ function WeddingApp() {
             </div>
           )}
           <div className="form-group">
-            <label className="form-label">Mesajınız:</label>
+            <label htmlFor="message-input" className="form-label">Mesajınız:</label>
             <textarea
+              id="message-input"
               name="message"
               className="upload-input"
               value={message}
@@ -408,7 +504,9 @@ function WeddingApp() {
               placeholder="Lütfen mesajınızı yazın (isim ve soyisim dahil)"
               rows={3}
               maxLength={250}
+              aria-describedby="message-help"
             />
+            <div id="message-help" className="form-text">İsim ve soyisim dahil kısa bir mesaj yazın</div>
           </div>
           <button className="upload-btn" type="submit" disabled={isSubmitting}>
             {isSubmitting ? 'Yükleniyor...' : 'Gönder'}

@@ -3,8 +3,8 @@ import react from '@vitejs/plugin-react'
 import path from 'path'
 
 // https://vitejs.dev/config/
-export default defineConfig({
-  base: '/Wedding-QR/', // ← repo adın neyse onu yaz
+export default defineConfig(({ command }) => ({
+  base: command === 'serve' ? '/' : '/Wedding-QR/', // Development'ta /, production'da /Wedding-QR/
   plugins: [react()],
   resolve: {
     alias: {
@@ -30,4 +30,4 @@ export default defineConfig({
     port: 3000,
     open: true
   }
-}) 
+}))
