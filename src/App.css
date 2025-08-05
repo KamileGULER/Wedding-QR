@@ -1,6 +1,13 @@
 html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
+  overflow-x: hidden; /* Horizontal scroll'u engelle */
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* Horizontal scroll'u engelle */
 }
 
 /* Eğer color-adjust kullanıyorsan, yerine şunu ekle: */
@@ -10,11 +17,12 @@ html {
 }
 
 #root {
-  width: 100vw;
+  width: 100%; /* 100vw yerine 100% kullan */
   min-height: 100vh;
   margin: 0;
   padding: 0;
   text-align: center;
+  overflow-x: hidden; /* Horizontal scroll'u engelle */
 }
 
 .logo {
@@ -161,6 +169,8 @@ body.dark .wedding-label-refined {
   background: none;
   color: inherit;
 }
+
+
 
 .wedding-textarea-refined {
   width: 100%;
@@ -631,8 +641,8 @@ body.dark .wedding-modal-close {
 }
 
 
-/* How to Use Section */
-.how-to-section {
+/* Wedding Details Section */
+.wedding-details-section {
   background: var(--color-white);
   max-width: var(--max-width);
   margin: 2.5rem auto;
@@ -643,11 +653,159 @@ body.dark .wedding-modal-close {
   flex-direction: column;
   align-items: center;
   gap: 2.2rem;
+  width: calc(100% - 2rem);
+  box-sizing: border-box;
+}
+
+.wedding-card {
+  width: 100%;
+  max-width: 600px;
+  background: rgba(255,255,255,0.8);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 4px 16px 0 rgba(181, 131, 141, 0.12);
+  border: 1px solid rgba(181, 131, 141, 0.1);
+}
+
+.wedding-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem;
+  color: #b5838d;
+  text-align: center;
+  margin-bottom: 2rem;
+  font-weight: 700;
+}
+
+.wedding-events {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.event-item {
+  background: rgba(255,255,255,0.7);
+  border-radius: 12px;
+  padding: 1.2rem;
+  box-shadow: 0 2px 8px 0 rgba(181, 131, 141, 0.08);
+  border: 1px solid rgba(181, 131, 141, 0.1);
+}
+
+.event-item h3 {
+  font-size: 1.1rem;
+  color: #b5838d;
+  margin-bottom: 0.8rem;
+  font-weight: 600;
+}
+
+.event-item p {
+  font-size: 0.95rem;
+  color: #666;
+  margin-bottom: 0.3rem;
+  line-height: 1.4;
+}
+
+.event-item strong {
+  color: #b5838d;
+  font-weight: 600;
+}
+
+.map-link {
+  display: inline-block;
+  color: #b5838d;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+  padding: 0.3rem 0.8rem;
+  background: rgba(181, 131, 141, 0.1);
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+
+.map-link:hover {
+  background: rgba(181, 131, 141, 0.2);
+  text-decoration: none;
+  color: #b5838d;
+}
+
+.contact-info {
+  background: rgba(255,255,255,0.7);
+  border-radius: 12px;
+  padding: 1.2rem;
+  box-shadow: 0 2px 8px 0 rgba(181, 131, 141, 0.08);
+  border: 1px solid rgba(181, 131, 141, 0.1);
+}
+
+.contact-info h3 {
+  font-size: 1.1rem;
+  color: #b5838d;
+  margin-bottom: 0.8rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.contact-info p {
+  font-size: 0.95rem;
+  color: #666;
+  margin-bottom: 0.3rem;
+  text-align: center;
+}
+
+.contact-info strong {
+  color: #b5838d;
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .wedding-details-section {
+    margin: 1.5rem auto;
+    padding: 1.5rem 1rem;
+    width: calc(100% - 2rem);
+    box-sizing: border-box;
+  }
+  
+  .wedding-card {
+    padding: 1.5rem;
+  }
+  
+  .wedding-title {
+    font-size: 1.4rem;
+  }
+  
+  .event-item {
+    padding: 1rem;
+  }
+  
+  .event-item h3 {
+    font-size: 1rem;
+  }
+  
+  .event-item p {
+    font-size: 0.9rem;
+  }
+}
+
+/* How to Use Section */
+.how-to-section {
+  background: var(--color-white);
+  max-width: var(--max-width);
+  margin: 2.5rem auto; /* Gap geri getirildi */
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  padding: 2.2rem 1.2rem 2.2rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.2rem;
+  width: calc(100% - 2rem);
+  box-sizing: border-box;
 }
 .container {
   width: 100%;
   max-width: 800px;
   margin: 0 auto;
+  box-sizing: border-box;
 }
 .section-title {
   font-family: 'Playfair Display', serif;
@@ -712,7 +870,7 @@ body.dark .wedding-modal-close {
 .upload-section {
   background: var(--color-white);
   max-width: var(--max-width);
-  margin: -30px auto 0 auto;
+  margin: 2.5rem auto; /* Gap geri getirildi */
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-card);
   padding: 2.2rem 1.2rem 2.2rem 1.2rem;
@@ -722,6 +880,8 @@ body.dark .wedding-modal-close {
   gap: 2.2rem;
   position: relative;
   z-index: 2;
+  width: calc(100% - 2rem);
+  box-sizing: border-box;
 }
 .upload-icons {
   display: flex;
@@ -820,18 +980,20 @@ body.dark .wedding-modal-close {
   transform: translateY(-2px) scale(1.04);
 }
 
-/* Services Section (2-col) */
+/* Services Section */
 .services-section {
   display: flex;
   flex-direction: row;
   align-items: stretch;
   justify-content: center;
   max-width: var(--max-width);
-  margin: 2.5rem auto;
+  margin: 2.5rem auto; /* Gap geri getirildi */
   background: var(--color-white);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-card);
   overflow: hidden;
+  width: calc(100% - 2rem);
+  box-sizing: border-box;
 }
 .services-photo {
   flex: 1 1 50%;
@@ -840,6 +1002,8 @@ body.dark .wedding-modal-close {
   align-items: center;
   justify-content: center;
   padding: 2rem 0;
+  border: none; /* Border'ı kaldır */
+  margin: 0; /* Margin'i kaldır */
 }
 .services-photo img {
   width: 200px;
@@ -857,6 +1021,8 @@ body.dark .wedding-modal-close {
   padding: 2rem 1.5rem;
   gap: 1.2rem;
   background: var(--color-peach);
+  border: none; /* Border'ı kaldır */
+  margin: 0; /* Margin'i kaldır */
 }
 .services-title {
   font-family: 'Playfair Display', serif;
@@ -873,7 +1039,7 @@ body.dark .wedding-modal-close {
 /* About Section */
 .about-section {
   max-width: var(--max-width);
-  margin: 2.5rem auto;
+  margin: 2.5rem auto; /* Gap geri getirildi */
   background: var(--color-bg-alt);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-soft);
@@ -882,6 +1048,8 @@ body.dark .wedding-modal-close {
   flex-direction: row;
   align-items: center;
   gap: 2rem;
+  width: calc(100% - 2rem);
+  box-sizing: border-box;
 }
 .about-content {
   flex: 1 1 50%;
@@ -934,6 +1102,7 @@ body.dark .wedding-modal-close {
   border-top-right-radius: 32px;
   box-shadow: 0 -2px 12px 0 rgba(181, 131, 141, 0.06);
   margin-top: 2.5rem;
+  box-sizing: border-box;
 }
 .footer-socials {
   margin-top: 0.7rem;
@@ -1123,120 +1292,45 @@ body.dark .drop-zone-content small {
 @media (max-width: 768px) {
   /* How to Use Section */
   .how-to-section {
-    margin: 1.5rem auto;
+    margin: 1.5rem auto; /* Gap geri getirildi */
     padding: 1.5rem 1rem;
-  }
-  .section-title {
-    font-size: 1.5rem;
-    margin-bottom: 1.5rem;
-  }
-  .how-to-steps {
-    gap: 1.5rem;
-  }
-  .step {
-    padding: 1.2rem;
-    gap: 1rem;
-  }
-  .step-number {
-    width: 40px;
-    height: 40px;
-    font-size: 1rem;
-  }
-  .step-content h3 {
-    font-size: 1.1rem;
-  }
-  .step-content p {
-    font-size: 0.95rem;
-  }
-  
-  /* Hero Section */
-  .hero-vertical-layout {
-    padding: 1.2rem 0.5rem 0 0.5rem;
-  }
-  .hero-headline {
-    font-size: 2rem;
-    margin-bottom: 0.7rem;
-    margin-top: 1.2rem;
-  }
-  .hero-subtitle {
-    font-size: 1rem;
-  }
-  
-  /* Icon Row */
-  .icon-row {
-    gap: 1.5rem;
-    flex-wrap: wrap;
-  }
-  .upload-icon i {
-    width: 56px;
-    height: 56px;
-    font-size: 1.5rem;
-  }
-  .upload-icon p {
-    font-size: 0.8rem;
+    width: calc(100% - 2rem);
+    box-sizing: border-box;
   }
   
   /* Upload Section */
   .upload-section {
-    margin: -20px auto 0 auto;
+    margin: 1.5rem auto; /* Gap geri getirildi */
     padding: 1.5rem 1rem;
     gap: 1.5rem;
+    width: calc(100% - 2rem);
+    box-sizing: border-box;
   }
   
   /* Services Section */
   .services-section {
     flex-direction: column;
-    margin: 1.5rem auto;
+    margin: 1.5rem auto; /* Gap geri getirildi */
+    width: calc(100% - 2rem);
+    box-sizing: border-box;
   }
   .services-photo {
-    padding: 1.5rem 0;
-  }
-  .services-photo img {
-    width: 160px;
-    height: 120px;
+    border: none;
+    margin: 0;
   }
   .services-content {
-    padding: 1.5rem 1rem;
-  }
-  .services-title {
-    font-size: 1.2rem;
-  }
-  .services-text {
-    font-size: 1rem;
+    border: none;
+    margin: 0;
   }
   
   /* About Section */
   .about-section {
     flex-direction: column;
     gap: 1.5rem;
-    margin: 1.5rem auto;
+    margin: 1.5rem auto; /* Gap geri getirildi */
     padding: 1.5rem 1rem;
-  }
-  .about-content, .about-photo {
-    flex: 1 1 100%;
-  }
-  .about-photo {
-    padding: 1.5rem 0;
-  }
-  .about-img {
-    width: 160px;
-    height: 120px;
-  }
-  .about-text {
-    font-size: 1rem;
-    text-align: center;
-  }
-  
-  /* Footer */
-  .footer-section {
-    padding: 1rem 0;
-    margin-top: 1.5rem;
-  }
-  .footer-credit {
-    font-size: 0.8rem;
-  }
-  .developer-name {
-    font-size: 0.85rem;
+    width: calc(100% - 2rem);
+    box-sizing: border-box;
   }
 }
 

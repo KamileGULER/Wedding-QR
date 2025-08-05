@@ -1,406 +1,65 @@
-import { useState } from 'react';
 import './App.css';
 import '@fontsource/inter';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Modal, Button } from 'react-bootstrap';
 import Hero from './components/Hero';
-import SectionDivider from './components/SectionDivider';
 import coupleImg from './assets/couple.jpeg';
 import gelinDamatImg from './assets/gelindamat.jpeg';
+import WeddingForm from './components/WeddingForm';
 
-
-function WeddingApp() {
-  const [photos, setPhotos] = useState<File[]>([]);
-  const [photoPreviews, setPhotoPreviews] = useState<string[]>([]);
-  const [message, setMessage] = useState('');
-  const [showModal, setShowModal] = useState(false);
-  const [modalTitle, setModalTitle] = useState('');
-  const [modalMessage, setModalMessage] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [tempMessage, setTempMessage] = useState('');
-  const [showTempMessage, setShowTempMessage] = useState(false);
-  const [isDragOver, setIsDragOver] = useState(false);
-
-  // Rate limiting için
-  const RATE_LIMIT_WINDOW = 5 * 60 * 1000; // 5 dakika
-  const MAX_POSTS_PER_WINDOW = 3; // 5 dakikada maksimum 3 post
-
-  const checkRateLimit = () => {
-    const now = Date.now();
-    const recentPosts = JSON.parse(localStorage.getItem('recentPosts') || '[]');
-    
-    // Son 5 dakikadaki postları filtrele
-    const validPosts = recentPosts.filter((postTime: number) => 
-      now - postTime < RATE_LIMIT_WINDOW
-    );
-    
-    if (validPosts.length >= MAX_POSTS_PER_WINDOW) {
-      const oldestPost = Math.min(...validPosts);
-      const timeLeft = Math.ceil((RATE_LIMIT_WINDOW - (now - oldestPost)) / 1000 / 60);
-      return {
-        allowed: false,
-        timeLeft: timeLeft
-      };
-    }
-    
-    return { allowed: true };
-  };
-
-  const updateRateLimit = () => {
-    const now = Date.now();
-    const recentPosts = JSON.parse(localStorage.getItem('recentPosts') || '[]');
-    
-    // Son 5 dakikadaki postları filtrele
-    const validPosts = recentPosts.filter((postTime: number) => 
-      now - postTime < RATE_LIMIT_WINDOW
-    );
-    
-    // Yeni post zamanını ekle
-    validPosts.push(now);
-    localStorage.setItem('recentPosts', JSON.stringify(validPosts));
-  };
-
-  // Input sanitization için
-  const sanitizeInput = (input: string) => {
-    if (typeof input !== 'string') return '';
-    
-    // HTML tag'lerini kaldır
-    const div = document.createElement('div');
-    div.textContent = input;
-    let sanitized = div.innerHTML;
-    
-    // Tehlikeli karakterleri escape et
-    sanitized = sanitized
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#x27;')
-      .replace(/\//g, '&#x2F;');
-    
-    return sanitized;
-  };
-
-  const validateMessage = (message: string) => {
-    if (!message || typeof message !== 'string') return false;
-    
-    // Çok uzun mesajları engelle
-    if (message.length > 500) return false;
-    
-    // Tehlikeli pattern'ları kontrol et
-    const dangerousPatterns = [
-      /<script/i,
-      /javascript:/i,
-      /on\w+\s*=/i,
-      /data:text\/html/i,
-      /vbscript:/i
-    ];
-    
-    return !dangerousPatterns.some(pattern => pattern.test(message));
-  };
-
-  // İsim-soyisim doğrulama fonksiyonu
-  const validateNameInMessage = (message: string) => {
-    if (!message || typeof message !== 'string') return false;
-    
-    // Mesajı kelimelere ayır
-    const words = message.trim().split(/\s+/);
-    
-    // En az 2 kelime olmalı (isim ve soyisim)
-    if (words.length < 2) return false;
-    
-    // Her kelime en az 2 karakter olmalı
-    const validWords = words.filter(word => word.length >= 2);
-    
-    // En az 2 geçerli kelime olmalı
-    return validWords.length >= 2;
-  };
-
-  // Upload handlers
-  const handlePhoto = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const fileList = e.target.files;
-    if (!fileList || fileList.length === 0) return;
-    
-    const files = Array.from(fileList);
-    console.log('File input değeri:', e.target.value);
-    console.log('FileList uzunluğu:', fileList.length);
-    console.log('Seçilen dosyalar:', files.map(f => f.name));
-    
-    processFiles(files);
-  };
-
-  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    setIsDragOver(false);
-    const files = Array.from(e.dataTransfer.files);
-    console.log('Drop edilen dosyalar:', files.map(f => f.name));
-    processFiles(files);
-  };
-
-  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-  };
-
-  const handleDragEnter = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    setIsDragOver(true);
-  };
-
-  const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    setIsDragOver(false);
-  };
-
-  const processFiles = (files: File[]) => {
-    // Dosya türü kontrolü
-    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
-    const invalidFiles = files.filter((file: File) => !allowedTypes.includes(file.type));
-    
-    if (invalidFiles.length > 0) {
-      setModalTitle('Hata');
-      setModalMessage('Sadece JPG, PNG, GIF ve WebP formatında dosyalar yükleyebilirsiniz.');
-      setShowModal(true);
-      return;
-    }
-    
-    // Dosya boyutu kontrolü (5MB limit)
-    const maxSize = 5 * 1024 * 1024; // 5MB
-    const oversizedFiles = files.filter((file: File) => file.size > maxSize);
-    
-    if (oversizedFiles.length > 0) {
-      setModalTitle('Hata');
-      setModalMessage('Dosya boyutu 5MB\'dan büyük olamaz. Lütfen daha küçük dosyalar seçin.');
-      setShowModal(true);
-      return;
-    }
-    
-    // Toplam dosya sayısı kontrolü (5 dosya limit)
-    if (files.length > 5) {
-      alert('En fazla 5 dosya seçebilirsiniz.');
-      return;
-    }
-    
-    // Dosya adı kontrolü (zararlı karakterler)
-    const invalidNames = files.filter(file => {
-      const fileName = file.name.toLowerCase();
-      const dangerousPatterns = [
-        /\.(exe|bat|cmd|com|pif|scr|vbs|js|jar|msi|dll|sys|bin)$/i,
-        /[<>:"/\\|?*]/,
-        /^(con|prn|aux|nul|com[1-9]|lpt[1-9])$/i
-      ];
-      return dangerousPatterns.some(pattern => pattern.test(fileName));
-    });
-    
-    if (invalidNames.length > 0) {
-      setModalTitle('Hata');
-      setModalMessage('Dosya adında geçersiz karakterler var. Lütfen dosya adını değiştirin.');
-      setShowModal(true);
-      return;
-    }
-    
-    // Dosya içeriği kontrolü (Magic Number)
-    const validateImageContent = (file: File) => {
-      return new Promise((resolve) => {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          const result = e.target?.result;
-          if (!result || typeof result === 'string') {
-            resolve(false);
-            return;
-          }
-          const arr = new Uint8Array(result).subarray(0, 4);
-          let header = '';
-          for (let i = 0; i < arr.length; i++) {
-            header += arr[i].toString(16);
-          }
-          
-          // JPEG, PNG, GIF, WebP magic numbers
-          const validHeaders = [
-            'ffd8ff', // JPEG
-            '89504e47', // PNG
-            '47494638', // GIF
-            '52494646' // WebP (simplified)
-          ];
-          
-          resolve(validHeaders.some(h => header.startsWith(h)));
-        };
-        reader.readAsArrayBuffer(file);
-      });
-    };
-    
-    // Validate all files
-    Promise.all(files.map(validateImageContent)).then(results => {
-      const invalidContent = results.filter(valid => !valid);
-      if (invalidContent.length > 0) {
-        setModalTitle('Hata');
-        setModalMessage('Bazı dosyalar geçerli resim dosyaları değil. Lütfen kontrol edin.');
-        setShowModal(true);
-        return;
-      }
-      
-      // All validations passed - Önce state'leri temizle
-      console.log(`Seçilen fotoğraf sayısı: ${files.length}`);
-      setPhotos(files);
-      setPhotoPreviews([]); // Önceki önizlemeleri temizle
-      
-      // Yeni önizlemeleri oluştur
-      const newPreviews: string[] = [];
-      let processedCount = 0;
-      
-      files.forEach((file, index) => {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          if (typeof reader.result === 'string') {
-            newPreviews[index] = reader.result;
-            processedCount++;
-            
-            // Tüm dosyalar işlendiğinde state'i güncelle
-            if (processedCount === files.length) {
-              setPhotoPreviews(newPreviews);
-            }
-          }
-        };
-        reader.readAsDataURL(file);
-      });
-    });
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    // Rate limiting kontrolü
-    const rateLimitCheck = checkRateLimit();
-    if (!rateLimitCheck.allowed) {
-      setModalTitle('Hız Limiti');
-      setModalMessage(`Çok hızlı post gönderiyorsunuz. Lütfen ${rateLimitCheck.timeLeft} dakika bekleyin.`);
-      setShowModal(true);
-      return;
-    }
-    
-    // Check if either photos or message is provided
-    if (photos.length === 0 && message.trim() === '') {
-      setModalTitle('Uyarı');
-      setModalMessage('Lütfen en az bir fotoğraf veya mesaj ekleyin!');
-      setShowModal(true);
-      return;
-    }
-    
-    // Mesaj validasyonu
-    if (message.trim() && !validateMessage(message)) {
-      setModalTitle('Güvenlik Hatası');
-      setModalMessage('Mesajınızda geçersiz karakterler var. Lütfen kontrol edin.');
-      setShowModal(true);
-      return;
-    }
-    
-    // İsim-soyisim doğrulaması
-    if (message.trim() && !validateNameInMessage(message)) {
-      setModalTitle('Eksik Bilgi');
-      setModalMessage('Lütfen adınızı ve soyadınızı içeren bir mesaj yazın');
-      setShowModal(true);
-      return;
-    }
-    
-    try {
-      setIsSubmitting(true);
-      
-      // Her fotoğrafı ayrı ayrı gönder
-      if (photos.length > 0) {
-        console.log(`Gönderilecek fotoğraf sayısı: ${photos.length}`);
-        
-        for (let i = 0; i < photos.length; i++) {
-          const photo = photos[i];
-          console.log(`Fotoğraf ${i + 1} gönderiliyor: ${photo.name} (${photo.size} bytes)`);
-          
-          // Her fotoğraf için ayrı FormData oluştur
-          const formData = new FormData();
-          
-          // Add message if provided
-          if (message.trim()) {
-            formData.append('message', message.trim());
-          }
-          
-          // Add single photo
-          formData.append('photo', photo);
-          formData.append('photo_number', (i + 1).toString());
-          formData.append('total_photos', photos.length.toString());
-          
-          console.log(`FormData ${i + 1} içeriği:`);
-          for (let [key, value] of formData.entries()) {
-            console.log(`${key}:`, value);
-          }
-          
-          // Send to Basin endpoint
-          const response = await fetch('https://usebasin.com/f/ad5ae0b70aeb', {
-            method: 'POST',
-            body: formData
-          });
-          
-          if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-          }
-          
-          console.log(`Fotoğraf ${i + 1} başarıyla gönderildi`);
-        }
-      } else {
-        // Sadece mesaj varsa
-        const formData = new FormData();
-        if (message.trim()) {
-          formData.append('message', message.trim());
-        }
-        
-        const response = await fetch('https://usebasin.com/f/ad5ae0b70aeb', {
-          method: 'POST',
-          body: formData
-        });
-        
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-      }
-      
-      // Başarılı gönderim
-      // Update rate limiting
-      updateRateLimit();
-      
-      // Show success message
-      setTempMessage('✅ Gönderildi!');
-      setShowTempMessage(true);
-      
-      // Hide message after 4 seconds
-      setTimeout(() => {
-        setShowTempMessage(false);
-      }, 4000);
-      
-      // Reset form
-      setPhotos([]);
-      setPhotoPreviews([]);
-      setMessage('');
-      
-              // Form input'unu da temizle
-        const fileInput = document.querySelector('#photo-upload') as HTMLInputElement;
-        if (fileInput) {
-          fileInput.value = '';
-        }
-      
-    } catch (error) {
-      console.error('Error submitting form:', error);
-      setTempMessage('❌ Hata oluştu');
-      setShowTempMessage(true);
-      
-      // Hide message after 4 seconds
-      setTimeout(() => {
-        setShowTempMessage(false);
-      }, 4000);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
+function App() {
   return (
     <>
       {/* Hero Section */}
       <Hero />
+      
+      {/* Wedding Details Section */}
+      <section className="wedding-details-section">
+        <div className="container">
+          <div className="wedding-card">
+            <h2 className="wedding-title">💍 Beyza & Raşit'in Düğününe Davetlisiniz</h2>
+            
+            <div className="wedding-events">
+              <div className="event-item">
+                <h3>📅 Kına Gecesi</h3>
+                <p><strong>🗓️ 9 Ağustos 2025 Cumartesi, 19:00</strong></p>
+                <p>📌 Bağkonak İlkokulu Karşısı, Kız Evinin Önü</p>
+                <a href="https://www.google.com/maps/search/?api=1&query=Bağkonak+İlkokulu,+Yalvaç,+Isparta" 
+                   target="_blank" rel="noopener noreferrer" className="map-link">
+                  📍 Konum
+                </a>
+              </div>
+              
+              <div className="event-item">
+                <h3>👰 Gelin Alma</h3>
+                <p><strong>🗓️ 10 Ağustos 2025 Pazar, 10:00</strong></p>
+                <p>📌 Isparta Merkez, Hızırbey Mah. 1549 Sok. Ceddid Sitesi</p>
+                <a href="https://www.google.com/maps/search/?api=1&query=Hızırbey+Mahallesi+1549+Sokak,+Isparta" 
+                   target="_blank" rel="noopener noreferrer" className="map-link">
+                  📍 Konum
+                </a>
+              </div>
+              
+              <div className="event-item">
+                <h3>🍽️ Yemek & Balo</h3>
+                <p><strong>🗓️ 10 Ağustos 2025 Pazar</strong></p>
+                <p>🍽️ Yemek: 16:00 – 19:30</p>
+                <p>💃 Balo: 20:00</p>
+                <p>📌 SAV Düğün Salonu, Merkez / Isparta</p>
+                <a href="https://www.google.com/maps/search/?api=1&query=SAV+Düğün+Salonu,+Isparta" 
+                   target="_blank" rel="noopener noreferrer" className="map-link">
+                  📍 Konum
+                </a>
+              </div>
+            </div>
+            
+            <div className="contact-info">
+              <h3>👨‍👩‍👧 Aileler</h3>
+              <p><strong>Mızrak Ailesi:</strong> 0551 991 10 78</p>
+              <p><strong>Cömert Ailesi:</strong> 0535 929 31 02</p>
+            </div>
+          </div>
+        </div>
+      </section>
       
       {/* How to Use Section */}
       <section className="how-to-section">
@@ -444,77 +103,8 @@ function WeddingApp() {
             <p>Mesaj</p>
           </div>
         </div>
-        {showTempMessage && (
-          <div style={{
-            padding: '10px',
-            margin: '10px 0',
-            borderRadius: '8px',
-            textAlign: 'center',
-            fontWeight: 'bold',
-            backgroundColor: tempMessage.includes('✅') ? '#d4edda' : '#f8d7da',
-            color: tempMessage.includes('✅') ? '#155724' : '#721c24',
-            border: `1px solid ${tempMessage.includes('✅') ? '#c3e6cb' : '#f5c6cb'}`
-          }}>
-            {tempMessage}
-          </div>
-        )}
-        <form className="upload-form" onSubmit={handleSubmit} autoComplete="off">
-          <div className="form-group">
-            <label htmlFor="photo-upload" className="form-label">Fotoğraf Yükle:</label>
-            <div 
-              className={`upload-drop-zone ${isDragOver ? 'dragover' : ''}`}
-              onDrop={handleDrop}
-              onDragOver={handleDragOver}
-              onDragEnter={handleDragEnter}
-              onDragLeave={handleDragLeave}
-            >
-              <input
-                id="photo-upload"
-                type="file"
-                name="photo"
-                accept="image/*"
-                multiple
-                className="upload-input"
-                onChange={handlePhoto}
-                aria-describedby="photo-help"
-              />
-              <div className="drop-zone-content">
-                <i className="fas fa-cloud-upload-alt"></i>
-                <p>Fotoğrafları buraya sürükleyin veya tıklayın</p>
-                <small>Birden fazla fotoğraf seçebilirsiniz (maksimum 5 adet)</small>
-              </div>
-            </div>
-            <div id="photo-help" className="form-text">Telefonda: Fotoğrafları sürükleyip bırakın veya galeriden seçin</div>
-          </div>
-          {photoPreviews.length > 0 && (
-            <div className="upload-preview">
-              {photoPreviews.map((preview, index) => (
-                <img key={index} src={preview} alt={`Yüklenen fotoğraf önizlemesi ${index + 1}`} />
-              ))}
-            </div>
-          )}
-          <div className="form-group">
-            <label htmlFor="message-input" className="form-label">Mesajınız:</label>
-            <textarea
-              id="message-input"
-              name="message"
-              className="upload-input"
-              value={message}
-              onChange={e => setMessage(e.target.value)}
-              placeholder="Lütfen mesajınızı yazın (isim ve soyisim dahil)"
-              rows={3}
-              maxLength={250}
-              aria-describedby="message-help"
-            />
-            <div id="message-help" className="form-text">İsim ve soyisim dahil kısa bir mesaj yazın</div>
-          </div>
-          <button className="upload-btn" type="submit" disabled={isSubmitting}>
-            {isSubmitting ? 'Yükleniyor...' : 'Gönder'}
-          </button>
-        </form>
+        <WeddingForm />
       </section>
-      
-      <SectionDivider />
       
       {/* Services Section */}
       <section className="services-section">
@@ -526,8 +116,6 @@ function WeddingApp() {
           <div className="services-text">Düğünümüzden fotoğraflarınızı ve sesli dileklerinizi yükleyerek bu özel günü ölümsüzleştirin. Kısa bir mesaj bırakmayı unutmayın!</div>
         </div>
       </section>
-      
-      <SectionDivider />
       
       {/* About Section */}
       <section className="about-section">
@@ -553,32 +141,8 @@ function WeddingApp() {
           <span className="developer-name">Kamile Güler</span>
         </div>
       </footer>
-
-      {/* Bootstrap Modal */}
-      <Modal show={showModal} onHide={() => setShowModal(false)} centered>
-        <Modal.Header closeButton>
-          <Modal.Title>{modalTitle}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {modalMessage}
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="primary" onClick={() => setShowModal(false)}>
-            Tamam
-          </Button>
-        </Modal.Footer>
-      </Modal>
     </>
   );
 }
 
-export default function App() {
-
-
-  return (
-    <div>
-      <WeddingApp />
-
-    </div>
-  );
-}
+export default App;
