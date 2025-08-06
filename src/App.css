@@ -77,6 +77,25 @@ body.dark .wedding-root {
   background: linear-gradient(120deg, #2d2233 0%, #3a2c3f 100%);
 }
 
+/* Gönder butonu rengi override */
+.btn-primary {
+  background-color: var(--color-heading) !important;
+  border-color: var(--color-heading) !important;
+  color: white !important;
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+  background-color: #a25f7a !important;
+  border-color: #a25f7a !important;
+  color: white !important;
+}
+
+.btn-primary:active {
+  background-color: #8f4d6a !important;
+  border-color: #8f4d6a !important;
+}
+
 .wedding-main-glass {
   margin: 3.5rem auto 0 auto;
   width: 100%;
@@ -1018,7 +1037,7 @@ body.dark .wedding-modal-close {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 2rem 1.5rem;
+  padding: 1.75rem 1rem;
   gap: 1.2rem;
   background: var(--color-peach);
   border: none; /* Border'ı kaldır */
@@ -1043,13 +1062,13 @@ body.dark .wedding-modal-close {
   background: var(--color-bg-alt);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-soft);
-  padding: 2.2rem 1.2rem 2.2rem 1.2rem;
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: 2rem;
   width: calc(100% - 2rem);
   box-sizing: border-box;
+
 }
 .about-content {
   flex: 1 1 50%;
@@ -1060,6 +1079,7 @@ body.dark .wedding-modal-close {
 }
 .about-photo {
   flex: 1 1 50%;
+  border-radius: 32px;
   background: #ffe4ec;
   display: flex;
   align-items: center;
@@ -1077,8 +1097,8 @@ body.dark .wedding-modal-close {
 .about-text {
   font-size: 1.08rem;
   color: var(--color-text);
-  text-align: left;
   margin: 0;
+  text-align: center;
 }
 @media (max-width: 768px) {
   .about-section {
@@ -1485,6 +1505,8 @@ body.dark .drop-zone-content small {
   .footer-section {
     padding: 30px 20px;
   }
+
+
 }
 
 
