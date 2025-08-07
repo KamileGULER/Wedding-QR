@@ -24,8 +24,8 @@ const WeddingForm = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   // Sabitler
-  const MAX_FILES = 5;
-  const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2MB
+  const MAX_FILES = 3;
+  const MAX_FILE_SIZE = 3 * 1024 * 1024; // 3MB
   const MAX_TOTAL_SIZE = 10 * 1024 * 1024; // 10MB
 
   // Form alanları değiştiğinde tetiklenir
@@ -55,7 +55,7 @@ const WeddingForm = () => {
     // Dosya boyutu kontrolü
     const oversizedFiles = filesArray.filter(file => file.size > MAX_FILE_SIZE);
     if (oversizedFiles.length > 0) {
-      alert(`❌ ${oversizedFiles.length} dosya 2MB'dan büyük! Lütfen küçük dosyalar seçin.`);
+      alert(`❌ ${oversizedFiles.length} dosya 3MB'dan büyük! Lütfen küçük dosyalar seçin.`);
       return;
     }
 
@@ -245,7 +245,7 @@ const WeddingForm = () => {
           disabled={isLoading}
         />
         <small className="text-muted">
-          Maksimum {MAX_FILES} fotoğraf, her biri en fazla 2MB, toplam 10MB
+          Maksimum {MAX_FILES} fotoğraf, her biri en fazla 3MB, toplam 10MB
         </small>
       </div>
 
