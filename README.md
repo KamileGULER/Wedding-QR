@@ -1,6 +1,6 @@
-# Raşit & Beyza Düğünü - Anı Paylaşım Platformu
+# Düğünler İçin Anı Paylaşım Platformu
 
-Bu proje, Raşit ve Beyza'nın düğünü için özel olarak tasarlanmış bir anı paylaşım platformudur. Misafirler düğün anılarını fotoğrafları ve mesajlarıyla paylaşabilirler.
+Bu proje, düğünler için özel olarak tasarlanmış bir anı paylaşım platformudur. Misafirler düğün anılarını fotoğrafları ve mesajlarıyla paylaşabilirler.
 
 ## 🎯 Özellikler
 
@@ -9,12 +9,6 @@ Bu proje, Raşit ve Beyza'nın düğünü için özel olarak tasarlanmış bir a
 - **Mesaj Paylaşımı**: Düğün anılarınızı yazılı olarak paylaşma
 - **Güvenli Dosya Yükleme**: Dosya boyutu ve türü kontrolü
 - **Responsive Tasarım**: Mobil ve masaüstü uyumlu
-
-### 🔐 Admin Paneli
-- **Şifre Koruması**: Güvenli admin girişi
-- **Gönderi Yönetimi**: Tüm gönderileri görüntüleme ve silme
-- **Rate Limiting**: Spam koruması
-- **Session Yönetimi**: Otomatik oturum sonlandırma
 
 ### 🛡️ Güvenlik Özellikleri
 - **Dosya Validasyonu**: Magic number kontrolü
@@ -99,5 +93,3 @@ Bu proje özel kullanım için tasarlanmıştır.
 **Kamile Güler** - Web sitesi geliştiricisi
 
 ---
-
-*Raşit & Beyza'nın düğünü için özel olarak hazırlanmıştır.* 💒
