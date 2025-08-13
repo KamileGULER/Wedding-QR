@@ -12,14 +12,12 @@ describe('Hero Component', () => {
     expect(screen.getByText(/Düğünümüze hoş geldiniz/)).toBeInTheDocument();
   });
 
-  it('renders with custom props', () => {
-    const customTitle = 'Custom Title';
-    const customSubtitle = 'Custom Subtitle';
+  it('renders with site config values', () => {
+    render(<Hero />);
     
-    render(<Hero title={customTitle} subtitle={customSubtitle} />);
-    
-    expect(screen.getByText(customTitle)).toBeInTheDocument();
-    expect(screen.getByText(customSubtitle)).toBeInTheDocument();
+    // Test that it renders the default values from site.config.ts
+    expect(screen.getByText('Raşit & Beyza')).toBeInTheDocument();
+    expect(screen.getByText(/Düğünümüze hoş geldiniz/)).toBeInTheDocument();
   });
 
   it('has correct CSS classes', () => {

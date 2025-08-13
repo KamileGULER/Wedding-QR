@@ -2,91 +2,71 @@ import './App.css';
 import '@fontsource/inter';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Hero from './components/Hero';
-import coupleImg from './assets/couple.jpeg';
-import gelinDamatImg from './assets/gelindamat.jpeg';
 import WeddingForm from './components/WeddingForm';
+import Seo from './components/Seo';
+import { siteConfig } from './site.config';
 
 function App() {
   return (
     <>
+      <Seo />
+      
       {/* Hero Section */}
       <Hero />
       
-      {/* Wedding Details Section */}
-      <section className="wedding-details-section">
+           {/* Wedding Details Section */}
+      {/* <section className="wedding-details-section">
         <div className="container">
           <div className="wedding-card">
-            <h2 className="wedding-title">💍 Beyza & Raşit'in Düğününe Davetlisiniz</h2>
+            <h2 className="wedding-title">💍 {siteConfig.coupleNames.full}'in Düğününe Davetlisiniz</h2>
             
             <div className="wedding-events">
-              <div className="event-item">
-                <h3>📅 Kına Gecesi</h3>
-                <p><strong>🗓️ 9 Ağustos 2025 Cumartesi, 19:00</strong></p>
-                <p>📌 Bağkonak İlkokulu Karşısı, Kız Evinin Önü</p>
-                <a href="https://www.google.com/maps/search/?api=1&query=Bağkonak+İlkokulu,+Yalvaç,+Isparta" 
-                   target="_blank" rel="noopener noreferrer" className="map-link">
-                  📍 Konum
-                </a>
-              </div>
-              
-              <div className="event-item">
-                <h3>👰 Gelin Alma</h3>
-                <p><strong>🗓️ 10 Ağustos 2025 Pazar, 10:00</strong></p>
-                <p>📌 Isparta Merkez, Hızırbey Mah. 1549 Sok. Ceddid Sitesi</p>
-                <a href="https://www.google.com/maps/search/?api=1&query=Hızırbey+Mahallesi+1549+Sokak,+Isparta" 
-                   target="_blank" rel="noopener noreferrer" className="map-link">
-                  📍 Konum
-                </a>
-              </div>
-              
-              <div className="event-item">
-                <h3>🍽️ Yemek & Balo</h3>
-                <p><strong>🗓️ 10 Ağustos 2025 Pazar</strong></p>
-                <p>🍽️ Yemek: 16:00 – 19:30</p>
-                <p>💃 Balo: 20:00</p>
-                <p>📌 SAV Düğün Salonu, Merkez / Isparta</p>
-                <a href="https://www.google.com/maps/search/?api=1&query=SAV+Düğün+Salonu,+Isparta" 
-                   target="_blank" rel="noopener noreferrer" className="map-link">
-                  📍 Konum
-                </a>
-              </div>
+              {siteConfig.events.map((event) => (
+                <div key={event.id} className="event-item">
+                  <h3>{event.title}</h3>
+                  <p><strong>🗓️ {event.date}, {event.time}</strong></p>
+                  <p>📌 {event.location}</p>
+                  {event.description && (
+                    <div className="event-description">
+                      {event.description.split('\n').map((line, index) => (
+                        <p key={index}>{line}</p>
+                      ))}
+                    </div>
+                  )}
+                  <a href={event.mapUrl} 
+                     target="_blank" rel="noopener noreferrer" className="map-link">
+                    📍 Konum
+                  </a>
+                </div>
+              ))}
             </div>
             
             <div className="contact-info">
               <h3>👨‍👩‍👧 Aileler</h3>
-              <p><strong>Mızrak Ailesi:</strong> 0551 991 10 78</p>
-              <p><strong>Cömert Ailesi:</strong> 0535 929 31 02</p>
+              {siteConfig.contacts.map((contact, index) => (
+                <p key={index}>
+                  <strong>{contact.familyName}:</strong> {contact.phone}
+                </p>
+              ))}
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
       
       {/* How to Use Section */}
       <section className="how-to-section">
         <div className="container">
-          <h2 className="section-title">Nasıl Kullanılır?</h2>
+          <h2 className="section-title">{siteConfig.texts.howToUse.title}</h2>
           <div className="how-to-steps">
-            <div className="step">
-              <div className="step-number">1</div>
-              <div className="step-content">
-                <h3>Fotoğraf Seçin</h3>
-                <p>Düğün anılarınızdan fotoğraflarınızı seçin. Birden fazla fotoğraf yükleyebilirsiniz.</p>
+            {siteConfig.texts.howToUse.steps.map((step) => (
+              <div key={step.number} className="step">
+                <div className="step-number">{step.number}</div>
+                <div className="step-content">
+                  <h3>{step.title}</h3>
+                  <p>{step.description}</p>
+                </div>
               </div>
-            </div>
-            <div className="step">
-              <div className="step-number">2</div>
-              <div className="step-content">
-                <h3>Mesaj Yazın</h3>
-                <p>İsteğe bağlı olarak kısa bir mesaj yazabilirsiniz. Fotoğraf veya mesajdan en az biri gereklidir.</p>
-              </div>
-            </div>
-            <div className="step">
-              <div className="step-number">3</div>
-              <div className="step-content">
-                <h3>Gönderin</h3>
-                <p>Formu doldurduktan sonra "Gönder" butonuna tıklayarak anılarınızı paylaşın.</p>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
@@ -109,11 +89,11 @@ function App() {
       {/* Services Section */}
       <section className="services-section">
         <div className="services-photo">
-          <img src={coupleImg} alt="Düğün Çifti" />
+          <img src={siteConfig.assets.couple} alt="Düğün Çifti" />
         </div>
         <div className="services-content">
-          <div className="services-title">Anılarınızı Paylaşın</div>
-          <div className="services-text">Düğünümüzden fotoğraflarınızı ve sesli dileklerinizi yükleyerek bu özel günü ölümsüzleştirin. Kısa bir mesaj bırakmayı unutmayın!</div>
+          <div className="services-title">{siteConfig.texts.services.title}</div>
+          <div className="services-text">{siteConfig.texts.services.description}</div>
         </div>
       </section>
       
@@ -121,24 +101,32 @@ function App() {
       <section className="about-section">
         <div className="about-content">
           <div className="about-text">
-            Raşit & Beyza'nın bu özel gününde bizimle olduğunuz için çok mutluyuz. Katılımınız ve güzel dilekleriniz için teşekkür ederiz!
+            {siteConfig.texts.about.message}
           </div>
         </div>
         <div className="about-photo">
-          <img src={gelinDamatImg} alt="Gelin ve Damat" className="about-img" />
+          <img src={siteConfig.assets.about} alt="Gelin ve Damat" className="about-img" />
         </div>
       </section>
       
       {/* Footer */}
       <footer className="footer-section">
-        <div>Teşekkür ederiz! 💖</div>
+        <div>{siteConfig.texts.footer.thankYou}</div>
         <div className="footer-socials">
-          <a href="#" aria-label="Instagram"><span role="img" aria-label="Instagram">📸</span></a>
-          <a href="#" aria-label="WhatsApp"><span role="img" aria-label="WhatsApp">💬</span></a>
+          {siteConfig.social.instagram && (
+            <a href={siteConfig.social.instagram} aria-label="Instagram">
+              <span role="img" aria-label="Instagram">📸</span>
+            </a>
+          )}
+          {siteConfig.social.whatsapp && (
+            <a href={siteConfig.social.whatsapp} aria-label="WhatsApp">
+              <span role="img" aria-label="WhatsApp">💬</span>
+            </a>
+          )}
         </div>
         <div className="footer-credit">
           <span>Designed & Developed by</span>
-          <span className="developer-name">Kamile Güler</span>
+          <span className="developer-name">{siteConfig.texts.footer.developer}</span>
         </div>
       </footer>
     </>

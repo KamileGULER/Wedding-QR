@@ -24,9 +24,9 @@ const WeddingForm = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   // Sabitler
-  const MAX_FILES = 3;
-  const MAX_FILE_SIZE = 3 * 1024 * 1024; // 3MB
-  const MAX_TOTAL_SIZE = 10 * 1024 * 1024; // 10MB
+  const MAX_FILES = 2;
+  const MAX_FILE_SIZE = 15 * 1024 * 1024; // 15MB
+  const MAX_TOTAL_SIZE = 30 * 1024 * 1024; // 30MB
 
   // Form alanları değiştiğinde tetiklenir
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -55,7 +55,7 @@ const WeddingForm = () => {
     // Dosya boyutu kontrolü
     const oversizedFiles = filesArray.filter(file => file.size > MAX_FILE_SIZE);
     if (oversizedFiles.length > 0) {
-      alert(`❌ ${oversizedFiles.length} dosya 3MB'dan büyük! Lütfen küçük dosyalar seçin.`);
+      alert(`❌ ${oversizedFiles.length} dosya 15MB'dan büyük! Lütfen küçük dosyalar seçin.`);
       return;
     }
 
@@ -64,7 +64,7 @@ const WeddingForm = () => {
     const newTotalSize = filesArray.reduce((sum, file) => sum + file.size, 0);
     
     if (currentTotalSize + newTotalSize > MAX_TOTAL_SIZE) {
-      alert(`❌ Toplam dosya boyutu 10MB'ı aşamaz!`);
+      alert(`❌ Toplam dosya boyutu 30MB'ı aşamaz!`);
       return;
     }
 
@@ -139,6 +139,7 @@ const WeddingForm = () => {
       return;
     }
 
+    alert("📤 Fotoğraflar yükleniyor... Bu işlem yaklaşık 20 saniye sürebilir. Lütfen bekleyiniz.");
     setIsLoading(true);
 
     try {
@@ -178,7 +179,6 @@ const WeddingForm = () => {
         console.error("FormData error:", formError);
         
         // CORS hatası olsa bile Drive'a yüklendiğini varsay
-        alert("🎉 Fotoğraflar başarıyla gönderildi!");
         clearForm();
       } finally {
         setIsLoading(false);
@@ -245,7 +245,7 @@ const WeddingForm = () => {
           disabled={isLoading}
         />
         <small className="text-muted">
-          Maksimum {MAX_FILES} fotoğraf, her biri en fazla 3MB, toplam 10MB
+          Maksimum {MAX_FILES} fotoğraf, her biri en fazla 15MB, toplam 30MB
         </small>
       </div>
 
@@ -285,7 +285,7 @@ const WeddingForm = () => {
         className="btn btn-primary"
         disabled={isLoading || form.files.length === 0}
       >
-        {isLoading ? "Gönderiliyor..." : "Gönder"}
+        {isLoading ? "Gönderiliyor... (Yaklaşık 20 saniye sürebilir)" : "Gönder"}
       </button>
     </form>
   );

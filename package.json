@@ -1,9 +1,24 @@
 {
-  "name": "wedding-qr",
-  "private": true,
+  "name": "wedding-template",
+  "private": false,
   "version": "1.0.0",
   "type": "module",
-  "homepage": "https://KamileGULER.github.io/Wedding-QR",
+  "homepage": "https://your-username.github.io/wedding-template",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/wedding-template.git"
+  },
+  "keywords": [
+    "wedding",
+    "template",
+    "react",
+    "typescript",
+    "vite",
+    "photo-sharing",
+    "wedding-website"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -21,7 +36,8 @@
     "bootstrap": "^5.3.7",
     "react": "^19.1.0",
     "react-bootstrap": "^2.10.10",
-    "react-dom": "^19.1.0"
+    "react-dom": "^19.1.0",
+    "react-helmet": "^6.1.0"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.28.0",
@@ -47,6 +63,7 @@
     "jest-environment-jsdom": "^30.0.5",
     "ts-jest": "^29.4.0",
     "typescript": "^5.8.3",
+    "typescript-eslint": "^8.39.1",
     "vite": "^4.0.0"
   }
 }

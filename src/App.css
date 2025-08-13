@@ -633,16 +633,6 @@ body.dark .wedding-modal-close {
 .hero-subtitle {
   margin-top: 0.5rem;
 }
-@media (max-width: 700px) {
-  .hero-vertical-layout {
-    padding: 1.2rem 0.5rem 0 0.5rem;
-  }
-  .hero-headline {
-    font-size: 2rem;
-    margin-bottom: 0.7rem;
-    margin-top: 1.2rem;
-  }
-}
 
 .section-divider {
   width: 100%;
@@ -1100,15 +1090,6 @@ body.dark .wedding-modal-close {
   margin: 0;
   text-align: center;
 }
-@media (max-width: 768px) {
-  .about-section {
-    flex-direction: column;
-    gap: 1.5rem;
-  }
-  .about-content, .about-photo {
-    flex: 1 1 100%;
-  }
-}
 
 /* Footer */
 .footer-section {
@@ -1442,67 +1423,3 @@ body.dark .drop-zone-content small {
     padding: 1.2rem 0.7rem;
   }
 }
-
-@media (max-width: 700px) {
-  .hero-brush-container {
-    max-width: 98vw;
-  }
-  .hero-brush-img {
-    max-width: 98vw;
-  }
-  .hero-brush-text .hero-headline {
-    font-size: 1.6rem;
-    padding: 0 0.3rem;
-  }
-}
-
-
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .hero-title {
-    font-size: 2.5rem;
-  }
-  
-  .hero-subtitle {
-    font-size: 1.1rem;
-  }
-  
-  .section-title {
-    font-size: 1.8rem;
-  }
-  
-  .how-to-steps {
-    grid-template-columns: 1fr;
-  }
-  
-  .upload-section {
-    padding: 40px 20px;
-  }
-  
-  .upload-form {
-    max-width: 100%;
-  }
-  
-  .services-section {
-    flex-direction: column;
-    text-align: center;
-  }
-  
-  .about-section {
-    flex-direction: column;
-    text-align: center;
-  }
-  
-  .about-photo {
-    margin-top: 30px;
-  }
-  
-  .footer-section {
-    padding: 30px 20px;
-  }
-
-
-}
-
-
