@@ -67,10 +67,5 @@ export interface SecurityConfig {
 }
 
 // Vite env typings for BASE_URL used in site.config.ts
-interface ImportMetaEnv {
-  readonly BASE_URL: string;
-}
-interface ImportMeta {
-  readonly env: ImportMetaEnv;
-}
+// (moved to src/vite-env.d.ts)
  
