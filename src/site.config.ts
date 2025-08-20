@@ -97,7 +97,8 @@ export interface SiteConfig {
 }
 
 // Varsayılan konfigürasyon
-const withBase = (path: string): string => `${import.meta.env.BASE_URL}${path.replace(/^\//, '')}`;
+const BASE_PATH = '/Wedding-QR/';
+const withBase = (path: string): string => `${BASE_PATH}${path.replace(/^\//, '')}`;
 
 export const defaultConfig: SiteConfig = {
   coupleNames: {
