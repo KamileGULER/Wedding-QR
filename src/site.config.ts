@@ -97,6 +97,8 @@ export interface SiteConfig {
 }
 
 // Varsayılan konfigürasyon
+const withBase = (path: string): string => `${import.meta.env.BASE_URL}${path.replace(/^\//, '')}`;
+
 export const defaultConfig: SiteConfig = {
   coupleNames: {
     groom: "Mehmet",
@@ -110,7 +112,7 @@ export const defaultConfig: SiteConfig = {
     keywords: ["düğün", "Ayşe Sena", "Mehmet", "fotoğraf", "anı", "paylaşım"],
     author: "Kamile Güler",
     canonicalUrl: "https://AnıBırak.com",
-    ogImage: "/assets/og.jpg",
+    ogImage: withBase("assets/og.jpg"),
     ogImageWidth: 1200,
     ogImageHeight: 630
   },
@@ -158,11 +160,11 @@ export const defaultConfig: SiteConfig = {
   ],
   
   assets: {
-    hero: "/assets/hero.jpg",
-    couple: "/assets/couple.jpg",
-    about: "/assets/about.jpg",
-    og: "/assets/og.jpg",
-    favicon: "/favicon.svg"
+    hero: withBase("assets/hero.jpg"),
+    couple: withBase("assets/couple.jpg"),
+    about: withBase("assets/about.jpg"),
+    og: withBase("assets/og.jpg"),
+    favicon: withBase("favicon.svg"),
   },
   
   texts: {

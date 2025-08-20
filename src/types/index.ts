@@ -66,4 +66,11 @@ export interface SecurityConfig {
   maxPostsPerWindow: number;
 }
 
+// Vite env typings for BASE_URL used in site.config.ts
+interface ImportMetaEnv {
+  readonly BASE_URL: string;
+}
+interface ImportMeta {
+  readonly env: ImportMetaEnv;
+}
  
