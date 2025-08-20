@@ -3,10 +3,10 @@
   "private": false,
   "version": "1.0.0",
   "type": "module",
-  "homepage": "https://your-username.github.io/wedding-template",
+  "homepage": "https://kamileguler.github.io/Wedding-QR/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/your-username/wedding-template.git"
+    "url": "https://github.com/kamileguler/Wedding-QR.git"
   },
   "keywords": [
     "wedding",

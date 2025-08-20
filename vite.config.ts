@@ -12,9 +12,7 @@ export default defineConfig(({ command }) => {
     repoName = remoteUrl.split('/').pop()?.replace(/\.git$/, '') ?? ''
   } catch {}
 
-  const resolvedBase = command === 'serve'
-    ? '/'
-    : (process.env.GH_PAGES_BASE ?? (process.env.GITHUB_REPOSITORY?.split('/')[1] ? `/${process.env.GITHUB_REPOSITORY.split('/')[1]}/` : (repoName ? `/${repoName}/` : '/')))
+  const resolvedBase = command === 'serve' ? '/' : '/Wedding-QR/'
 
   return ({
   base: resolvedBase,
