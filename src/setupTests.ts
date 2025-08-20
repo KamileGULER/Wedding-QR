@@ -27,7 +27,7 @@ global.FileReader = jest.fn().mockImplementation(() => ({
   readAsDataURL: jest.fn(),
   readAsArrayBuffer: jest.fn(),
   result: 'data:image/jpeg;base64,mock-data'
-})) as any;
+})) as unknown as typeof FileReader;
 
 // Mock ResizeObserver
 global.ResizeObserver = jest.fn().mockImplementation(() => ({
