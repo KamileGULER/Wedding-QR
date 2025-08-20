@@ -1,10 +1,23 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import path from 'path'
+import { execSync } from 'node:child_process'
 
 // https://vitejs.dev/config/
-export default defineConfig(({ command }) => ({
-  base: command === 'serve' ? '/' : '/Wedding-QR/', // Development'ta /, production'da /Wedding-QR/
+export default defineConfig(({ command }) => {
+  // Determine repo name for GitHub Pages base path
+  let repoName = ''
+  try {
+    const remoteUrl = execSync('git config --get remote.origin.url', { encoding: 'utf8' }).trim()
+    repoName = remoteUrl.split('/').pop()?.replace(/\.git$/, '') ?? ''
+  } catch {}
+
+  const resolvedBase = command === 'serve'
+    ? '/'
+    : (process.env.GH_PAGES_BASE ?? (process.env.GITHUB_REPOSITORY?.split('/')[1] ? `/${process.env.GITHUB_REPOSITORY.split('/')[1]}/` : (repoName ? `/${repoName}/` : '/')))
+
+  return ({
+  base: resolvedBase,
   plugins: [react()],
   resolve: {
     alias: {
@@ -30,4 +43,5 @@ export default defineConfig(({ command }) => ({
     port: 3000,
     open: true
   }
-}))
+  })
+})
