@@ -6,12 +6,12 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  background: #f8e6ec;
+  background: linear-gradient(120deg, var(--color-bg) 0%, var(--color-bg-alt) 100%);
   transition: background 0.5s;
 }
 
 .hero-particles-bg {
-  background: linear-gradient(120deg, #ffe4ec 0%, #f8e6ec 60%, #eec6d0 100%);
+  background: linear-gradient(120deg, var(--color-bg-alt) 0%, var(--color-bg) 60%, var(--color-accent) 100%);
 }
 
 
@@ -30,7 +30,7 @@
 .hero-title {
   font-size: 3rem;
   font-weight: 800;
-  color: #b5838d;
+  color: var(--color-text);
   letter-spacing: 0.01em;
   margin-bottom: 1rem;
   opacity: 0;
@@ -39,7 +39,7 @@
 
 .hero-subtitle {
   font-size: 1.3rem;
-  color: #a7869c;
+  color: var(--color-text);
   opacity: 0;
   animation: fadeInUp 1.2s 0.5s cubic-bezier(.23,1.01,.32,1) forwards;
 }
@@ -64,9 +64,9 @@
   font-size: 1rem;
 }
 .hero-particles-toggle button {
-  background: #ffe4ec;
-  border: 1px solid #eec6d0;
-  color: #b5838d;
+  background: var(--color-bg-alt);
+  border: 1px solid var(--color-accent);
+  color: var(--color-text);
   border-radius: 8px;
   padding: 0.3em 1em;
   font-weight: 600;
@@ -75,9 +75,9 @@
 }
 .hero-particles-toggle button.active,
 .hero-particles-toggle button:hover {
-  background: #b5838d;
+  background: var(--color-text);
   color: #fff;
-  border-color: #b5838d;
+  border-color: var(--color-text);
 }
 
 @media (max-width: 768px) {

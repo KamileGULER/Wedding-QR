@@ -1,19 +1,36 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap');
 
 :root {
-  --color-bg: #fff7f0;
-  --color-bg-alt: #ffe4ec;
-  --color-accent: #f3c6d3;
-  --color-pink: #f9e3ea;
-  --color-peach: #ffe5d0;
-  --color-beige: #f8f5f2;
+  /* Ana arkaplan renkleri */
+  --color-bg: #e8d5f7;          /* Sıcak lila-pembe ton */
+  --color-bg-alt: #f2e8ff;      /* Açık sıcak lila */
+  
+  /* Vurgu ve accent renkleri */
+  --color-accent: #d4a8f2;      /* Sıcak mor-pembe accent */
+  
+  /* Ana renk tonları */
+  --color-pink: #3d4ba8;        /* Sıcak koyu mavi */
+  --color-peach: #e6d0ff;       /* Sıcak açık lila */
+  --color-beige: #faf5ff;       /* Sıcak beyaz lila */
+  
+  /* Temel renkler */
   --color-white: #fff;
-  --color-text: #b5838d;
-  --color-heading: #a25f7a;
-  --color-divider: #f3c6d3;
-  --color-gold: #e2c928;
-  --shadow-soft: 0 4px 24px 0 rgba(181, 131, 141, 0.08);
-  --shadow-card: 0 8px 32px 0 rgba(181, 131, 141, 0.10);
+  
+  /* Metin renkleri */
+  --color-text: #6b5aa8;        /* Sıcak mor-mavi ton */
+  --color-heading: #5a4996;     /* Sıcak koyu mor başlık */
+  
+  /* Ayırıcı ve border */
+  --color-divider: #d4a8f2;
+  
+  /* Altın vurgu (düğün için) */
+  --color-gold: #d4a928;        /* Sıcak altın ton */
+  
+  /* Gölge efektleri */
+  --shadow-soft: 0 4px 24px 0 rgba(107, 90, 168, 0.12);
+  --shadow-card: 0 8px 32px 0 rgba(107, 90, 168, 0.15);
+  
+  /* Ek özellikler */
   --radius: 18px;
   --radius-lg: 32px;
   --section-padding: 2.5rem;
