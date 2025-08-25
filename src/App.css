@@ -512,7 +512,6 @@ body.dark .wedding-modal-close {
   position: absolute;
   inset: 0;
   z-index: 0;
-  background: url('/wedding-bg.jpg') center/cover no-repeat;
   opacity: 0.1;
   pointer-events: none;
 }
@@ -1088,7 +1087,7 @@ body.dark .wedding-modal-close {
 }
 .footer-socials a {
   color: var(--color-accent);
-  font-size: 1.3rem;
+  font-size: 0.85rem;
   transition: color 0.2s;
 }
 .footer-socials a:hover {

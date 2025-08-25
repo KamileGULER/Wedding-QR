@@ -113,16 +113,9 @@ function App() {
       <footer className="footer-section">
         <div>{siteConfig.texts.footer.thankYou}</div>
         <div className="footer-socials">
-          {siteConfig.social.instagram && (
-            <a href={siteConfig.social.instagram} aria-label="Instagram">
-              <span role="img" aria-label="Instagram">📸</span>
-            </a>
-          )}
-          {siteConfig.social.whatsapp && (
-            <a href={siteConfig.social.whatsapp} aria-label="WhatsApp">
-              <span role="img" aria-label="WhatsApp">💬</span>
-            </a>
-          )}
+          <a href="https://kamileguler.github.io/kamileguler-web-page/" target="_blank" rel="noopener noreferrer" aria-label="View My Projects">
+            Anılarınızı Ölümsüzleştirmek için tıklayınız.
+          </a>
         </div>
         <div className="footer-credit">
           <span>Designed & Developed by</span>

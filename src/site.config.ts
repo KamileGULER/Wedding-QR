@@ -97,8 +97,9 @@ export interface SiteConfig {
 }
 
 // Varsayılan konfigürasyon
-const BASE_PATH = '/Wedding-QR/';
-const withBase = (path: string): string => `${BASE_PATH}${path.replace(/^\//, '')}`;
+// Vite'ın sağladığı BASE_URL ile dinamik base kullan
+const VITE_BASE = (import.meta as any).env?.BASE_URL ?? '/';
+const withBase = (path: string): string => `${VITE_BASE}${path.replace(/^\//, '')}`;
 
 export const defaultConfig: SiteConfig = {
   coupleNames: {
@@ -201,7 +202,7 @@ export const defaultConfig: SiteConfig = {
       message: "Ayşe Sena & Mehmet'in bu özel gününde bizimle olduğunuz için çok mutluyuz. Katılımınız ve güzel dilekleriniz için teşekkür ederiz!"
     },
     footer: {
-      thankYou: "Teşekkür ederiz! 💖",
+      thankYou: "Mutluluk paylaştıkça çoğalır 💕",
       developer: "Kamile Güler"
     }
   },
