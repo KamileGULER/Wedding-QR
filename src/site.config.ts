@@ -98,7 +98,7 @@ export interface SiteConfig {
 
 // Varsayılan konfigürasyon
 // Vite'ın sağladığı BASE_URL ile dinamik base kullan
-const VITE_BASE = (import.meta as any).env?.BASE_URL ?? '/';
+const VITE_BASE = import.meta.env?.BASE_URL ?? '/';
 const withBase = (path: string): string => `${VITE_BASE}${path.replace(/^\//, '')}`;
 
 export const defaultConfig: SiteConfig = {
