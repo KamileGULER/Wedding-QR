@@ -97,8 +97,8 @@ export interface SiteConfig {
 }
 
 // Varsayılan konfigürasyon
-// Not: CI/Jest/Build ortamlarında uyumluluk için base'i sabit bırakıyoruz
-const VITE_BASE = '/';
+// GitHub Pages için base path
+const VITE_BASE = '/Wedding-QR/';
 const withBase = (path: string): string => `${VITE_BASE}${path.replace(/^\//, '')}`;
 
 export const defaultConfig: SiteConfig = {
