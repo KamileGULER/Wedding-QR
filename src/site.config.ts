@@ -97,21 +97,8 @@ export interface SiteConfig {
 }
 
 // Varsayılan konfigürasyon
-// Vite'ın sağladığı BASE_URL ile dinamik base kullan; Jest altında "import.meta"
-// parse edilemediği için güvenli bir yardımcı ile okuyup fallback veriyoruz
-const getBaseUrl = (): string => {
-  try {
-    // "import.meta" söz dizimini Jest/Babel parse etmesin diye dinamik fonksiyon içinde değerlendiriyoruz
-    const base = (new Function(
-      'try { return import.meta && import.meta.env && import.meta.env.BASE_URL } catch (_) { return undefined }'
-    ))();
-    return typeof base === 'string' && base ? base : '/';
-  } catch {
-    return '/';
-  }
-};
-
-const VITE_BASE = getBaseUrl();
+// Not: CI/Jest/Build ortamlarında uyumluluk için base'i sabit bırakıyoruz
+const VITE_BASE = '/';
 const withBase = (path: string): string => `${VITE_BASE}${path.replace(/^\//, '')}`;
 
 export const defaultConfig: SiteConfig = {
